@@ -125,8 +125,6 @@
 		<controlpoint xx="1" yy="0" zz="0" />
 		<controlpoint xx="1" yy="-0.5" zz="0" />
 	</LEAF>-->
-	<LEAF id="terreno" type="terrain" texture="resources/terrain.jpg" heightmap="resources/heightmap_128.jpg" />
-	<LEAF id="himalaias" type="terrain" texture="resources/himalaiasColor.png" heightmap="resources/himalaiasHeightMap.png" />
 	<LEAF id="balao" type="vehicle" />
 
 </LEAVES>
@@ -161,33 +159,11 @@
         <DESCENDANTS>
         	
         	<DESCENDANT id="ballon" />
-        	<DESCENDANT id="terrain"/>
-
         </DESCENDANTS>
 
     </NODE>
 
-	<NODE id="terrain" >
-	<!-- next two lines are mandatory -->
-        <MATERIAL id="null" />      <!-- declared material superimposes the material received from parent node -->
-                                  <!-- id="null" maintains material from parent node        -->
-        <TEXTURE id="null" />       <!-- declared texture superimposes the texture received from parent node -->
-                                  <!-- id="null" maintains texture from parent node       -->
-                                  <!-- id="clear" clears texture declaration received from parent node      -->
-
-        <!-- geom. transf. are optional and may be repeated, in any order, as necessary -->
-        <TRANSLATION x="0" y="-2.5" z="0" />
-        <SCALE sx="10" sy="5" sz="10" />
-        
-
-        <!-- declaring descendents, ate least one node or one leaf must be present -->
-        <DESCENDANTS>
-            <DESCENDANT id="himalaias" />       <!-- "ss" is the identifier of a node or of leaf; -->
-                                          <!--     may be repeatad as necessary. It can refer an -->
-                                          <!--      identifier of another node, later defined in the lsx file. -->
-        </DESCENDANTS>
-
-    </NODE>
+	
 
     <NODE id="ballon" >
 	<!-- next two lines are mandatory -->
