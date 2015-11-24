@@ -2,9 +2,11 @@
 :-use_module(library(lists)).
 :-use_module(library(between)).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%                                         Game                                                    %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Troca uma peça por outra no tabuleiro
+%Troca uma peï¿½a por outra no tabuleiro
 replace([_|T], 1, X, [X|T]).
 replace([H|T], I, X, [H|R]):- I > 0, NI is I-1, replace(T, NI, X, R), !.
 replace(L, _, _, L).
@@ -201,7 +203,7 @@ checkInput(String,Size,X,Y):-
         Y>0,Y=<Size.
 
 
-%Move uma peça de no tabuleiro
+%Move uma peï¿½a de no tabuleiro
 chooseMove(Board,Size,Player,NewBoard):- write('Que peca deseja mover?'),((Player =:= 0, write('Jogador O'));(Player =:= 1,write('Jogador X'))),nl,
                                                                                 write('Coords = '), read(Input),checkInput(Input,Size,X,Y),
                                                                                 canUsePiece(Board,X,Y,Player),
@@ -231,7 +233,7 @@ checkTrone(Board,Size,XF,YF,Player,NewBoard):-
       replaceElemMatrix(Board,C,C,Trone,NewBoard),
       write([DiffX,DiffY,X1,Y1,X2,Y2,X3,Y3]).
 
-%Muda a peça do trono caso seja necessario
+%Muda a peï¿½a do trono caso seja necessario
 changeTrone(Board,_,[],_,Board).
 
 changeTrone(Board,Size,[H|T],Player,NewBoard):-
@@ -313,7 +315,7 @@ verifyFrame(X,Y,XF,YF,Size):-
         F1>F2,
         F1 =\= round(Size/2).                  
 
-%Retorna a frame em que está
+%Retorna a frame em que estï¿½
 frame(X,Y,Size,Level):-
         if(X>round(Size/2),ResX is Size-X+1,ResX is X),
         if(Y>round(Size/2),ResY is Size-Y+1,ResY is Y),
@@ -496,5 +498,5 @@ choice(4) :- abort.
 selectTamanho(Tamanho):-write('Tamanho'),nl,read(Tamanho),Tamanho>=7,Tamanho=<13,number(Tamanho),Tamanho mod 2 =:=1.
 selectTamanho(Tamanho):-write('Tamanho Errado'),nl,selectTamanho(Tamanho),!.
 
-botDifficulty(Diff):-write('Dificuldade do Bot (1-Fácil 2-Médio)'),nl,read(Diff),Diff>0,Diff=<2,number(Diff).
+botDifficulty(Diff):-write('Dificuldade do Bot (1-Fï¿½cil 2-Mï¿½dio)'),nl,read(Diff),Diff>0,Diff=<2,number(Diff).
 botDifficulty(Diff):-write('Dificuldade Errada'),nl,botDifficulty(Diff),!.

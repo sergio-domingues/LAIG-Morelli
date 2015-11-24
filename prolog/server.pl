@@ -103,10 +103,16 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
-parse_input(handshake, handshake).
-parse_input(test(C,N), Res) :- test(C,Res,N).
-parse_input(quit, goodbye).
+:-[morelli].
 
-test(_,[],N) :- N =< 0.
-test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	
+parse_input(iniciaTabuleiro(N),Res):-fillTabuleiro(Res,N).
+parse_input(validMoves(Board,Size,Player,X,Y),Res):-canUsePiece(Board,X,Y,Player),findall([XV,YV],validMove(Board,Size,X,Y,XV,YV,_),Res).
+parse_input(movePiece(Board,Size,Player,X,Y,XF,YF),NewBoard):-canUsePiece(Board,X,Y,Player),
+                                                                                validMove(Board,Size,X,Y,XF,YF,Player), 
+                                                                                movePiece(Board,X,Y,XF,YF,NewBoard2,PecasAlteradas),
+                                                                                changeTrone(NewBoard2,Size,PecasAlteradas,Player,NewBoard).
+parse_input(smartMove(Board,Size,Player),NewBoard):-smartMove(Board,Size,Player,NewBoard).
+parse_input(randomMove(Board,Size,Player),NewBoard):-randomMove(Board,Size,Player,NewBoard).
+
+parse_input(handshake, handshake).
+parse_input(quit, goodbye).
