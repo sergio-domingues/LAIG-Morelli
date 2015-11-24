@@ -53,6 +53,8 @@ XMLscene.prototype.init = function(application) {
 
     this.tile=new MyTile(this);
 
+    this.borda=new CGFtexture(this,"resources/borda.png");
+
     this.amarelo=new CGFappearance(this);
     this.amarelo.setAmbient(1,1,0,1);
     this.amarelo.setDiffuse(1,1,0,1); 
@@ -147,9 +149,17 @@ XMLscene.prototype.display = function() {
         this.multMatrix(this.initialTransformation);
         this.updateLights();
         this.amarelo.apply();
+        this.borda.bind();
         this.tile.display();
-        this.translate(0.5,0,0);
+        this.translate(1,0,0);
         this.tile.display();
+        this.translate(1,0,0);
+        this.tile.display();
+        this.translate(1,0,0);
+        this.tile.display();
+        this.translate(1,0,0);
+        this.tile.display();
+        this.borda.unbind();
         //this.getObjects(this.graph_tree.root_id);
     }
 
