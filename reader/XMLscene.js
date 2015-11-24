@@ -50,6 +50,14 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
     
     this.interface = {};
+
+    this.tile=new MyTile(this);
+
+    this.amarelo=new CGFappearance(this);
+    this.amarelo.setAmbient(1,1,0,1);
+    this.amarelo.setDiffuse(1,1,0,1); 
+    this.amarelo.setSpecular(1,1,0,1); 
+    this.amarelo.setShininess(100); 
     
     this.setUpdatePeriod(100);
 }
@@ -138,7 +146,11 @@ XMLscene.prototype.display = function() {
     {
         this.multMatrix(this.initialTransformation);
         this.updateLights();
-        this.getObjects(this.graph_tree.root_id);
+        this.amarelo.apply();
+        this.tile.display();
+        this.translate(0.5,0,0);
+        this.tile.display();
+        //this.getObjects(this.graph_tree.root_id);
     }
 
 }
