@@ -113,6 +113,7 @@ parse_input(movePiece(Board,Size,Player,X,Y,XF,YF),NewBoard):-canUsePiece(Board,
                                                                                 changeTrone(NewBoard2,Size,PecasAlteradas,Player,NewBoard).
 parse_input(smartMove(Board,Size,Player),NewBoard):-smartMove(Board,Size,Player,NewBoard).
 parse_input(randomMove(Board,Size,Player),NewBoard):-randomMove(Board,Size,Player,NewBoard).
+parse_input(checkGameOver(Board,Size,Player)):-gameOver(Board,Size,Player).
 
 parse_input(handshake, handshake).
 parse_input(quit, goodbye).
