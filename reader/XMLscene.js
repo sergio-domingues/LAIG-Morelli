@@ -51,6 +51,8 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
 
+    this.piece = new MyPiece(this);
+
     this.tile=new MyTile(this);
 
     this.borda=new CGFtexture(this,"resources/borda.png");
@@ -146,7 +148,10 @@ XMLscene.prototype.display = function() {
     
     if (this.graph.loadedOk === true) 
     {
-        this.multMatrix(this.initialTransformation);
+        this.piece.display();
+
+
+       /* this.multMatrix(this.initialTransformation);
         this.updateLights();
         this.amarelo.apply();
         this.borda.bind();
@@ -159,7 +164,7 @@ XMLscene.prototype.display = function() {
         this.tile.display();
         this.translate(1,0,0);
         this.tile.display();
-        this.borda.unbind();
+        this.borda.unbind();*/
         //this.getObjects(this.graph_tree.root_id);
     }
 
