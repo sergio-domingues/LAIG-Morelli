@@ -1,6 +1,5 @@
 function MyTile(scene) {
     CGFobject.call(this, scene);
-    
     this.initBuffers();
 }
 

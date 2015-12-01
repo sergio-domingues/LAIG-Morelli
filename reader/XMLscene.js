@@ -55,13 +55,57 @@ XMLscene.prototype.init = function(application) {
 
     this.borda=new CGFtexture(this,"resources/borda.png");
 
-    this.amarelo=new CGFappearance(this);
-    this.amarelo.setAmbient(1,1,0,1);
-    this.amarelo.setDiffuse(1,1,0,1); 
-    this.amarelo.setSpecular(1,1,0,1); 
-    this.amarelo.setShininess(100); 
+   
+    this.board=new Board(this,13);
+
+    this.yellow=new CGFappearance(this);
+    this.yellow.setAmbient(1,1,0,1);
+    this.yellow.setDiffuse(1,1,0,1); 
+    this.yellow.setSpecular(1,1,0,1); 
+    this.yellow.setShininess(100);
+
+    this.red=new CGFappearance(this);
+    this.red.setAmbient(1,0,0,1);
+    this.red.setDiffuse(1,0,0,1); 
+    this.red.setSpecular(1,0,0,1); 
+    this.red.setShininess(100); 
+
+    this.green=new CGFappearance(this);
+    this.green.setAmbient(0,1,0,1);
+    this.green.setDiffuse(0,1,0,1); 
+    this.green.setSpecular(0,1,0,1); 
+    this.green.setShininess(100); 
+
+    this.blue=new CGFappearance(this);
+    this.blue.setAmbient(0,0,1,1);
+    this.blue.setDiffuse(0,0,1,1);
+    this.blue.setSpecular(0,0,1,1); 
+    this.blue.setShininess(100); 
+
+    this.orange=new CGFappearance(this);
+    this.orange.setAmbient(1,0.5,0,1);
+    this.orange.setDiffuse(1,0.5,0,1);
+    this.orange.setSpecular(1,0.5,0,1); 
+    this.orange.setShininess(100); 
+
+    this.purple=new CGFappearance(this);
+    this.purple.setAmbient(0.5,0,0.5,1);
+    this.purple.setDiffuse(0.5,0,0.5,1);
+    this.purple.setSpecular(0.5,0,0.5,1); 
+    this.purple.setShininess(100); 
+
+    this.purplefagg=new CGFappearance(this);
+    this.purplefagg.setAmbient(0.4,0,0.8,1);
+    this.purplefagg.setDiffuse(0.4,0,0.8,1); 
+    this.purplefagg.setSpecular(0.4,0,0.8,1); 
+    this.purplefagg.setShininess(100); 
+    
+
+     this.colors=[this.red,this.orange,this.yellow,this.green,this.blue,this.purplefagg,this.purple];
     
     this.setUpdatePeriod(100);
+
+    this.setPickEnabled(true);
 }
 ;
 
@@ -113,6 +157,23 @@ XMLscene.prototype.updateLights = function() {
 }
 ;
 
+XMLscene.prototype.logPicking = function ()
+{
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+			for (var i=0; i< this.pickResults.length; i++) {
+				var obj = this.pickResults[i][0];
+				if (obj)
+				{
+					var customId = this.pickResults[i][1];				
+					console.log("Picked object: " + obj + ", with pick id " + customId);
+				}
+			}
+			this.pickResults.splice(0,this.pickResults.length);
+		}		
+	}
+}
+
 /** Set's scene's interface (MyInterface) */
 XMLscene.prototype.setInterface = function(interface) {
     this.interface = interface;
@@ -122,7 +183,9 @@ XMLscene.prototype.setInterface = function(interface) {
 XMLscene.prototype.display = function() {
     // ---- BEGIN Background, camera and axis setup
     //this.setActiveShader();
-    
+    this.logPicking();
+    this.clearPickRegistration();
+
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -146,20 +209,13 @@ XMLscene.prototype.display = function() {
     
     if (this.graph.loadedOk === true) 
     {
+
+        
         this.multMatrix(this.initialTransformation);
+
+        
         this.updateLights();
-        this.amarelo.apply();
-        this.borda.bind();
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.borda.unbind();
+        this.board.display();
         //this.getObjects(this.graph_tree.root_id);
     }
 
