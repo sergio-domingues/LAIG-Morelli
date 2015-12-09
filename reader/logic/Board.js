@@ -12,6 +12,8 @@ Board.prototype.constructor = Board;
 Board.prototype.display = function() {
     
     for (var i = 0; i < this.size * this.size; i++) {
+        this.scene.registerForPick(i+1,this.board[i]);
+        
         this.board[i].display();
     
     }
@@ -25,7 +27,7 @@ Board.prototype.init = function() {
     for (var i = 0; i < this.size * this.size; i++) {
         var pos = this.getCoords(i);
         var colorIndexY=pos["y"], colorIndexX=pos["x"];
-        
+
         if (pos["x"] > this.size / 2) {
             colorIndexX = this.size - pos["x"]-1;
         }
@@ -38,6 +40,7 @@ Board.prototype.init = function() {
         var colorIndex = Math.min(colorIndexX, colorIndexY);
         
         this.board[i] = new Cell(this.scene,colorIndex,pos["x"],pos["y"]);
+        
     }
 }
 

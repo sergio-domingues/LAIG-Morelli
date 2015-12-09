@@ -41,7 +41,8 @@ XMLscene.prototype.init = function(application) {
     
     //Transparencia nas texturas
     this.gl.enable(this.gl.BLEND);
-    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    this.gl.blendEquation(this.gl.FUNC_ADD);
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_DST_ALPHA);
     
     this.enableTextures(true);
     
@@ -54,7 +55,7 @@ XMLscene.prototype.init = function(application) {
     this.tile=new MyTile(this);
 
     this.borda=new CGFtexture(this,"resources/borda.png");
-
+    this.bordaBlue=new CGFtexture(this,"resources/bordaSelected.png");
    
     this.board=new Board(this,13);
 
@@ -65,9 +66,9 @@ XMLscene.prototype.init = function(application) {
     this.yellow.setShininess(100);
 
     this.red=new CGFappearance(this);
-    this.red.setAmbient(1,0,0,1);
-    this.red.setDiffuse(1,0,0,1); 
-    this.red.setSpecular(1,0,0,1); 
+    this.red.setAmbient(1,0,0,0.1);
+    this.red.setDiffuse(1,0,0,0.1); 
+    this.red.setSpecular(1,0,0,0.1); 
     this.red.setShininess(100); 
 
     this.green=new CGFappearance(this);
@@ -106,6 +107,13 @@ XMLscene.prototype.init = function(application) {
     this.setUpdatePeriod(100);
 
     this.setPickEnabled(true);
+
+    var prolog=new Connection();
+    prolog.initTabuleiro(13,function(data){
+    	prolog.movePiece(data,13,0,1,1,2,2,function(data){
+    		console.log(data);
+    	});
+    });
 }
 ;
 
@@ -165,7 +173,8 @@ XMLscene.prototype.logPicking = function ()
 				var obj = this.pickResults[i][0];
 				if (obj)
 				{
-					var customId = this.pickResults[i][1];				
+					var customId = this.pickResults[i][1];	
+					this.pickResults[i][0].setHighlighted();			
 					console.log("Picked object: " + obj + ", with pick id " + customId);
 				}
 			}
@@ -183,6 +192,7 @@ XMLscene.prototype.setInterface = function(interface) {
 XMLscene.prototype.display = function() {
     // ---- BEGIN Background, camera and axis setup
     //this.setActiveShader();
+
     this.logPicking();
     this.clearPickRegistration();
 
