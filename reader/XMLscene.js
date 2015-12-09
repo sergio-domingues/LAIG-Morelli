@@ -51,68 +51,68 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
     
     this.interface = {};
-
-    this.tile=new MyTile(this);
-
-    this.borda=new CGFtexture(this,"resources/borda.png");
-    this.bordaBlue=new CGFtexture(this,"resources/bordaSelected.png");
-   
-    this.board=new Board(this,13);
-
-    this.yellow=new CGFappearance(this);
-    this.yellow.setAmbient(1,1,0,1);
-    this.yellow.setDiffuse(1,1,0,1); 
-    this.yellow.setSpecular(1,1,0,1); 
-    this.yellow.setShininess(100);
-
-    this.red=new CGFappearance(this);
-    this.red.setAmbient(1,0,0,0.1);
-    this.red.setDiffuse(1,0,0,0.1); 
-    this.red.setSpecular(1,0,0,0.1); 
-    this.red.setShininess(100); 
-
-    this.green=new CGFappearance(this);
-    this.green.setAmbient(0,1,0,1);
-    this.green.setDiffuse(0,1,0,1); 
-    this.green.setSpecular(0,1,0,1); 
-    this.green.setShininess(100); 
-
-    this.blue=new CGFappearance(this);
-    this.blue.setAmbient(0,0,1,1);
-    this.blue.setDiffuse(0,0,1,1);
-    this.blue.setSpecular(0,0,1,1); 
-    this.blue.setShininess(100); 
-
-    this.orange=new CGFappearance(this);
-    this.orange.setAmbient(1,0.5,0,1);
-    this.orange.setDiffuse(1,0.5,0,1);
-    this.orange.setSpecular(1,0.5,0,1); 
-    this.orange.setShininess(100); 
-
-    this.purple=new CGFappearance(this);
-    this.purple.setAmbient(0.5,0,0.5,1);
-    this.purple.setDiffuse(0.5,0,0.5,1);
-    this.purple.setSpecular(0.5,0,0.5,1); 
-    this.purple.setShininess(100); 
-
-    this.purplefagg=new CGFappearance(this);
-    this.purplefagg.setAmbient(0.4,0,0.8,1);
-    this.purplefagg.setDiffuse(0.4,0,0.8,1); 
-    this.purplefagg.setSpecular(0.4,0,0.8,1); 
-    this.purplefagg.setShininess(100); 
     
-
-     this.colors=[this.red,this.orange,this.yellow,this.green,this.blue,this.purplefagg,this.purple];
+    this.tile = new MyTile(this);
+    
+    this.borda = new CGFtexture(this,"resources/borda.png");
+    this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
+    
+    this.board = new Board(this,13);
+    
+    this.yellow = new CGFappearance(this);
+    this.yellow.setAmbient(1, 1, 0, 1);
+    this.yellow.setDiffuse(1, 1, 0, 1);
+    this.yellow.setSpecular(1, 1, 0, 1);
+    this.yellow.setShininess(100);
+    
+    this.red = new CGFappearance(this);
+    this.red.setAmbient(1, 0, 0, 0.1);
+    this.red.setDiffuse(1, 0, 0, 0.1);
+    this.red.setSpecular(1, 0, 0, 0.1);
+    this.red.setShininess(100);
+    
+    this.green = new CGFappearance(this);
+    this.green.setAmbient(0, 1, 0, 1);
+    this.green.setDiffuse(0, 1, 0, 1);
+    this.green.setSpecular(0, 1, 0, 1);
+    this.green.setShininess(100);
+    
+    this.blue = new CGFappearance(this);
+    this.blue.setAmbient(0, 0, 1, 1);
+    this.blue.setDiffuse(0, 0, 1, 1);
+    this.blue.setSpecular(0, 0, 1, 1);
+    this.blue.setShininess(100);
+    
+    this.orange = new CGFappearance(this);
+    this.orange.setAmbient(1, 0.5, 0, 1);
+    this.orange.setDiffuse(1, 0.5, 0, 1);
+    this.orange.setSpecular(1, 0.5, 0, 1);
+    this.orange.setShininess(100);
+    
+    this.purple = new CGFappearance(this);
+    this.purple.setAmbient(0.5, 0, 0.5, 1);
+    this.purple.setDiffuse(0.5, 0, 0.5, 1);
+    this.purple.setSpecular(0.5, 0, 0.5, 1);
+    this.purple.setShininess(100);
+    
+    this.purplefagg = new CGFappearance(this);
+    this.purplefagg.setAmbient(0.4, 0, 0.8, 1);
+    this.purplefagg.setDiffuse(0.4, 0, 0.8, 1);
+    this.purplefagg.setSpecular(0.4, 0, 0.8, 1);
+    this.purplefagg.setShininess(100);
+    
+    
+    this.colors = [this.red, this.orange, this.yellow, this.green, this.blue, this.purplefagg, this.purple];
     
     this.setUpdatePeriod(100);
-
+    
     this.setPickEnabled(true);
-
-    var prolog=new Connection();
-    prolog.initTabuleiro(13,function(data){
-    	prolog.movePiece(data,13,0,1,1,2,2,function(data){
-    		console.log(data);
-    	});
+    
+    var prolog = new Connection();
+    prolog.initTabuleiro(13, function(board) {
+        prolog.checkGameOver(board, 13, 0, function(data) {
+            console.log(data);
+        });
     });
 }
 ;
@@ -165,22 +165,22 @@ XMLscene.prototype.updateLights = function() {
 }
 ;
 
-XMLscene.prototype.logPicking = function ()
+XMLscene.prototype.logPicking = function() 
 {
-	if (this.pickMode == false) {
-		if (this.pickResults != null && this.pickResults.length > 0) {
-			for (var i=0; i< this.pickResults.length; i++) {
-				var obj = this.pickResults[i][0];
-				if (obj)
-				{
-					var customId = this.pickResults[i][1];	
-					this.pickResults[i][0].setHighlighted();			
-					console.log("Picked object: " + obj + ", with pick id " + customId);
-				}
-			}
-			this.pickResults.splice(0,this.pickResults.length);
-		}		
-	}
+    if (this.pickMode == false) {
+        if (this.pickResults != null  && this.pickResults.length > 0) {
+            for (var i = 0; i < this.pickResults.length; i++) {
+                var obj = this.pickResults[i][0];
+                if (obj) 
+                {
+                    var customId = this.pickResults[i][1];
+                    this.pickResults[i][0].setHighlighted();
+                    console.log("Picked object: " + obj + ", with pick id " + customId);
+                }
+            }
+            this.pickResults.splice(0, this.pickResults.length);
+        }
+    }
 }
 
 /** Set's scene's interface (MyInterface) */
@@ -192,10 +192,10 @@ XMLscene.prototype.setInterface = function(interface) {
 XMLscene.prototype.display = function() {
     // ---- BEGIN Background, camera and axis setup
     //this.setActiveShader();
-
+    
     this.logPicking();
     this.clearPickRegistration();
-
+    
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -219,10 +219,10 @@ XMLscene.prototype.display = function() {
     
     if (this.graph.loadedOk === true) 
     {
-
+        
         
         this.multMatrix(this.initialTransformation);
-
+        
         
         this.updateLights();
         this.board.display();
@@ -266,9 +266,9 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
             //index outside bounds
             if (this.currentAnimation >= currNode.cmpAnims.animationsIDs.length) {
                 //last index
-                this.currentAnimation = currNode.cmpAnims.animationsIDs.length -1 ;
+                this.currentAnimation = currNode.cmpAnims.animationsIDs.length - 1;
             }
-                    
+            
             for (var i = 0; i < this.animations.length; i++) {
                 if (currNode.getCurrAnim(this.currentAnimation) == this.animations[i].id) {
                     this.animations[i].setActive();
@@ -280,11 +280,11 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         
         for (var i = 0; i < currNode.descendants.length; i++) {
             this.pushMatrix();
-                  
-                this.multMatrix(matrixAnim);      
-                this.multMatrix(currNode.getMatrix());            
-                this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
-            this.popMatrix();        
+            
+            this.multMatrix(matrixAnim);
+            this.multMatrix(currNode.getMatrix());
+            this.getObjects(currNode.descendants[i], nextTextId, nextMaterialId);
+            this.popMatrix();
         }
     
     } else if (currNode instanceof GraphTree_leaf) {
@@ -308,7 +308,7 @@ XMLscene.prototype.getObjects = function(currNodeId, textId, materialId) {
         
         if (material !== undefined) {
             this.materialDefault.apply();
-        }    
+        }
     }
 }
 
