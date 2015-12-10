@@ -15,11 +15,11 @@ Cell.prototype.display = function() {
     this.scene.colors[this.colorIndex].apply();
     if (this.highlighted) {
         this.scene.bordaBlue.bind();
+        this.scene.translate(0, 0.5, 0);
     } else {
         this.scene.borda.bind();
     }
     this.primitive.display();
-    //this.scene.borda.unbind();
     this.scene.popMatrix();
 }
 

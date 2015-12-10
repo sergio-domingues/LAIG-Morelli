@@ -19,6 +19,10 @@ MyPiece.prototype.init = function() {
 }
 
 MyPiece.prototype.display = function() {
+    
+    
+    this.scene.scale(0.8,0.2,0.8);
+    this.scene.rotate(Math.PI/2,1,0,0);
 
    this.cilindro.display();
    
@@ -31,4 +35,7 @@ MyPiece.prototype.display = function() {
         this.scene.rotate(Math.PI,1,0,0);
         this.tampo.display();
     this.scene.popMatrix();
+
+
+    
 }

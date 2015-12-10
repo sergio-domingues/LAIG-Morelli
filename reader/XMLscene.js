@@ -41,7 +41,7 @@ XMLscene.prototype.init = function(application) {
     
     //Transparencia nas texturas
     this.gl.enable(this.gl.BLEND);
-    this.gl.blendEquation(this.gl.FUNC_ADD);
+    //this.gl.blendEquation(this.gl.FUNC_ADD);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_DST_ALPHA);
     
     this.enableTextures(true);
@@ -52,9 +52,6 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
 
-    this.piece = new MyPiece(this);
-
-    this.tile=new MyTile(this);
 
     this.borda=new CGFtexture(this,"resources/borda.png");
 
@@ -66,7 +63,7 @@ XMLscene.prototype.init = function(application) {
 
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.board = new Board(this,13);
+    this.morreli = new Morreli(this,13,"HH");
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);
@@ -109,20 +106,26 @@ XMLscene.prototype.init = function(application) {
     this.purplefagg.setDiffuse(0.4, 0, 0.8, 1);
     this.purplefagg.setSpecular(0.4, 0, 0.8, 1);
     this.purplefagg.setShininess(100);
-    
+
+    this.white = new CGFappearance(this);
+    this.white.setAmbient(1, 1, 1, 1);
+    this.white.setDiffuse(1, 1, 1, 1);
+    this.white.setSpecular(1, 1, 1, 1);
+    this.white.setShininess(100);
+
+    this.black = new CGFappearance(this);
+    this.black.setAmbient(0, 0, 0, 1);
+    this.black.setDiffuse(0, 0, 0, 1);
+    this.black.setSpecular(0, 0, 0, 1);
+    this.black.setShininess(100);
     
     this.colors = [this.red, this.orange, this.yellow, this.green, this.blue, this.purplefagg, this.purple];
     
     this.setUpdatePeriod(100);
     
     this.setPickEnabled(true);
+   
     
-    var prolog = new Connection();
-    prolog.initTabuleiro(13, function(board) {
-        prolog.checkGameOver(board, 13, 0, function(data) {
-            console.log(data);
-        });
-    });
 }
 ;
 
@@ -183,7 +186,7 @@ XMLscene.prototype.logPicking = function()
                 if (obj) 
                 {
                     var customId = this.pickResults[i][1];
-                    this.pickResults[i][0].setHighlighted();
+                    this.morreli.update(customId,this.pickResults[i][0]);
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                 }
             }
@@ -228,31 +231,11 @@ XMLscene.prototype.display = function() {
     
     if (this.graph.loadedOk === true) 
     {
-
-        this.piece.display();
-
-
-       /* this.multMatrix(this.initialTransformation);
-        this.updateLights();
-        this.amarelo.apply();
-        this.borda.bind();
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.translate(1,0,0);
-        this.tile.display();
-        this.borda.unbind();*/
-       
-        
         this.multMatrix(this.initialTransformation);
         
         
         this.updateLights();
-        this.board.display();
+        this.morreli.display();
         //this.getObjects(this.graph_tree.root_id);
     }
 
