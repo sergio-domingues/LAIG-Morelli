@@ -85,6 +85,15 @@ Board.prototype.clearPath = function() {
     }
 }
 
+Board.prototype.isPath = function(index){
+    for(var i =0;i<this.pathHighlighted.length;i++){
+        if(this.pathHighlighted[i][0]==index.x+1 && this.pathHighlighted[i][1]==index.y+1){
+            return true;
+        }
+    }
+    return false;
+}
+
 Board.prototype.getCoords = function(pos) {
     var size = this.size * this.size;
     var y = Math.trunc(pos / this.size);

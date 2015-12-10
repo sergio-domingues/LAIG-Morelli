@@ -41,7 +41,6 @@ XMLscene.prototype.init = function(application) {
     
     //Transparencia nas texturas
     this.gl.enable(this.gl.BLEND);
-    //this.gl.blendEquation(this.gl.FUNC_ADD);
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_DST_ALPHA);
     
     this.enableTextures(true);
@@ -63,7 +62,7 @@ XMLscene.prototype.init = function(application) {
 
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.morreli = new Morreli(this,13,"HH");
+    this.morreli = new Morreli(this,5,"HH");
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);
