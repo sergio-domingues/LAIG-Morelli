@@ -114,7 +114,13 @@ Board.prototype.movePiece = function(board) {
     }
 
     if(difference["throne"]!=-1){
+        var middle=Math.floor(this.size/2)*this.size+Math.floor(this.size/2);
         
+        if(this.logicBoard[middle]===undefined){
+            this.logicBoard[middle]=new Piece(this.scene,difference["throne"],Math.floor(this.size/2),Math.floor(this.size/2));
+        }else{
+            this.logicBoard[middle].player=difference["throne"];
+        }
     }
     
     
@@ -128,12 +134,11 @@ Board.prototype.diff = function(tabOld, tabNew) {
     var newPos = [];
     var oldPos = [];
     var capture = [];
-    var piece;
     
     for (var i = 0; i < this.size; i++) {
         for (var j = 0; j < this.size; j++) {
             
-            if (tabOld[i][j] != tabNew[i][j]) {
+            if (tabOld[i][j] != tabNew[i][j] && !(i==Math.floor(this.size/2) && j==Math.floor(this.size/2))) {
                 if (tabOld[i][j] == -1 && tabNew[i][j] != -1) {
                     piece = tabNew[i][j];
                     newPos[0] = j;
@@ -155,7 +160,7 @@ Board.prototype.diff = function(tabOld, tabNew) {
             "old": oldPos
         },
         "capture": capture,
-        "throne": tabNew[Math.floor(this.size / 2)][Math.floor(this.size / 2)]
+        "throne": tabNew[Math.floor(this.size / 2)][Math.floor(this.size / 2)]%10
     
     }
 
