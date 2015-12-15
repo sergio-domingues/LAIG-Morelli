@@ -22,7 +22,6 @@ Connection.prototype.init = function() {
 Connection.prototype.initTabuleiro = function(size, callback) {
     var self = this;
     this.getPrologRequest("iniciaTabuleiro(" + size + ")", function(data) {
-        //console.log(data.target.response);
         var tabuleiro = self.tabPrologToJavascript(data.target.response);
         if (typeof callback === "function") {
             callback(tabuleiro);
@@ -47,7 +46,6 @@ Connection.prototype.validMoves = function(board, size, player, x, y, callback) 
 Connection.prototype.movePiece = function(board, size, player, x, y, xf, yf, callback) {
     var self = this;
     this.getPrologRequest("movePiece(" + this.tabJavascriptToProlog(board) + "," + size + "," + player + "," + x + "," + y + "," + xf + "," + yf + ")", function(data) {
-        //console.log(data.target.response);
         var newTab = self.tabPrologToJavascript(data.target.response);
         if (typeof callback === "function") {
             callback(newTab);
@@ -58,7 +56,6 @@ Connection.prototype.movePiece = function(board, size, player, x, y, xf, yf, cal
 Connection.prototype.smartMove = function(board, size, player, callback) {
     var self = this;
     this.getPrologRequest("smartMove(" + this.tabJavascriptToProlog(board) + "," + size + "," + player + ")", function(data) {
-        //console.log(data.target.response);
         var newTab = self.tabPrologToJavascript(data.target.response);
         if (typeof callback === "function") {
             callback(newTab);
@@ -69,7 +66,6 @@ Connection.prototype.smartMove = function(board, size, player, callback) {
 Connection.prototype.randomMove = function(board, size, player, callback) {
     var self = this;
     this.getPrologRequest("randomMove(" + this.tabJavascriptToProlog(board) + "," + size + "," + player + ")", function(data) {
-        //console.log(data.target.response);
         var newTab = self.tabPrologToJavascript(data.target.response);
         if (typeof callback === "function") {
             callback(newTab);
@@ -80,7 +76,6 @@ Connection.prototype.randomMove = function(board, size, player, callback) {
 Connection.prototype.checkGameOver = function(board, size, player, callback) {
     var self = this;
     this.getPrologRequest("checkGameOver(" + this.tabJavascriptToProlog(board) + "," + size + "," + player + ")", function(data) {
-        //console.log(data.target.response);
         var newTab = self.tabPrologToJavascript(data.target.response);
         if (typeof callback === "function") {
             callback(newTab);

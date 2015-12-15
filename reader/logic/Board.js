@@ -117,6 +117,7 @@ Board.prototype.movePiece = function(board) {
     this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]] = undefined;
     this.logicBoard[difference["move"]["new"][1] * this.size + difference["move"]["new"][0]] = piece;
     
+    
     if(difference["capture"].length>0){
         var player=this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]].player;
         this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]].player=(1-player);

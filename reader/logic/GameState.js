@@ -56,10 +56,6 @@ Morreli.prototype.update = function(id, piece) {
         var coords = this.getCoords(id - 1);
         if (this.board.isPath(coords)) {
             this.movePiece(coords.x, coords.y);
-            this.player = (1 - this.player);
-            this.currentState = "INIT";
-            //TODO Checkgame está mal...cena de async=======>>>> cancro
-            this.checkEndGame();
         }
     }
     
@@ -81,18 +77,25 @@ Morreli.prototype.movePiece = function(xf, yf) {
     
     this.connection.movePiece(this.board.logicBoardInitial, this.size, this.player, this.board.pieceSelected[0] + 1, this.board.pieceSelected[1] + 1, xf + 1, yf + 1, function(board) {
         self.board.movePiece(board);
+        self.checkEndGame();
     });
 
 }
 
 Morreli.prototype.checkEndGame = function() {
     var self = this;
+    //console.log(this.board.logicBoardInitial,this.player);
     
-    this.connection.checkGameOver(this.board.logicBoardInitial, this.size, this.player, function(data) {
+    this.connection.checkGameOver(this.board.logicBoardInitial, this.size, 1-this.player, function(data) {
         console.log(data);
         if (data) {
-            this.currentState = "GAMEOVER";
+            self.currentState = "GAMEOVER";
         }
+        else{
+            self.currentState="INIT";
+            self.player = (1 - self.player);
+        }
+        
     });
     {
     
