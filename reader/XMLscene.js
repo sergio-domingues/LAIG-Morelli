@@ -62,7 +62,7 @@ XMLscene.prototype.init = function(application) {
 
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.morreli = new Morreli(this,5,"HH");
+    this.morreli = new Morreli(this,9,["bot2","bot1"]);
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);
@@ -185,7 +185,7 @@ XMLscene.prototype.logPicking = function()
                 if (obj) 
                 {
                     var customId = this.pickResults[i][1];
-                    this.morreli.update(customId,this.pickResults[i][0]);
+                    this.morreli.updateClick(customId,this.pickResults[i][0]);
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                 }
             }
@@ -352,4 +352,6 @@ XMLscene.prototype.update = function(currTime) {
             this.animations[i].addTime(currTime);
         }
     }
+
+    this.morreli.updateTime(currTime);
 }

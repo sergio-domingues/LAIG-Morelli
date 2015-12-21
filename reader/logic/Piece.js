@@ -5,6 +5,7 @@ function Piece(scene, player, x, y) {
     this.y = y;
     this.primitive = new MyPiece(scene);
     this.highlighted = false;
+    this.animation;
 }
 
 Piece.prototype.constructor = Piece;
@@ -16,7 +17,11 @@ Piece.prototype.display = function() {
     }else if(this.player==0){
         this.scene.black.apply();
     }
-    
+    if(this.animation){
+        var matrix=this.animation.getMatrix();
+        this.scene.multMatrix(matrix);
+    }
+
     if(this.highlighted){
     this.scene.translate(this.x, 1, this.y);
     }else{

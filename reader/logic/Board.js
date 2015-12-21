@@ -83,6 +83,7 @@ Board.prototype.clearPath = function() {
     for (var i = 0; i < this.pathHighlighted.length; i++) {
         this.board[(this.pathHighlighted[i][1] - 1) * this.size + (this.pathHighlighted[i][0] - 1)].setHighlighted();
     }
+    this.pathHighlighted=[];
 }
 
 Board.prototype.isPath = function(index){
@@ -113,7 +114,7 @@ Board.prototype.movePiece = function(board) {
     var piece = this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]];
     piece.x = difference["move"]["new"][0];
     piece.y = difference["move"]["new"][1];
-    piece.setHighlighted();
+    piece.highlighted=false;
     this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]] = undefined;
     this.logicBoard[difference["move"]["new"][1] * this.size + difference["move"]["new"][0]] = piece;
     

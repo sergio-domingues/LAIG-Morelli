@@ -16,6 +16,8 @@ function MovePieceAnimation(scene,posInitial,posFinal) {
     this.yf=posFinal[1];
     this.xi=posInitial[0];
     this.yi=posInitial[0];
+    this.state="UP";
+    this.timeUpDown=this.span/4
     
     
     this.lastMatrix;
@@ -25,74 +27,70 @@ MovePieceAnimation.prototype.constructor = MovePieceAnimation;
 MovePieceAnimation.prototype = Object.create(Animation.prototype);
 
 /**
- * Initializes the circular animation
+ * Initializes the linear animation
  */
-CircularAnimation.prototype.init = function() {
-    this.calcVelocity();
-    this.initMatrix();
-    this.timeDelta = 1000 / this.ups;
+MovePieceAnimation.prototype.init = function() {
+    this.velocityUpDown=this.calcVelocity();
 }
 
 /**
- * Obtain the initial animation's matrix
+ * Adds controlpoint to animation's controlpoint array
+ * @param {float} x 
+ * @param {float} y 
+ * @param {float} z 
  */
-CircularAnimation.prototype.initMatrix = function() {
-    
-    this.initMatrix = mat4.create();
-    mat4.identity(this.initMatrix);
-    
-   // mat4.translate(this.initMatrix, this.initMatrix, this.center);
-    mat4.rotateY(this.initMatrix, this.initMatrix, degToRad(this.startAng));
-    mat4.translate(this.initMatrix, this.initMatrix, vec3.fromValues(0, 0, this.radius));
-    
-    this.lastMatrix = this.initMatrix;
-}
-
-/**
- * Calculation of the animation's velocity (ms)
- */
-CircularAnimation.prototype.calcVelocity = function() {
-    this.velocity = this.rotAng / (this.span * 1000);
-}
 
 /**
  * Updates animation and returns the animation's actual matrix
  */
-CircularAnimation.prototype.getMatrix = function() {
-                
-    if (this.frameTime >= this.timeDelta && this.currAng < this.endAng && !this.done) {
-        
-        this.frameTime -= this.timeDelta;
-        this.currAng += this.velocity * this.timeDelta;
-      
-        this.lastMatrix = this.rotate(this.currAng);
+MovePieceAnimation.prototype.getMatrix = function() {
+
+    var x,y,z;
+
+    if(this.state=="UP"){
+        x=this.xi;
+        z=this.yi;
+        y=1*(this.frameTime/(this.span/4));
+
+        if(this.frameTime>this.span/4){
+            this.state=="MOVE";
+            this.frameTime-=this.span/4;
+        }
+    }else if(this.state=="DOWN"){
+        x=this.xf;
+        z=this.yf;
+        y=1-(1*(this.frameTime/(this.span/4)));
+
+        if(this.frameTime>this.span/4){
+            this.state=="DONE";
+            this.frameTime-=this.span/4;
+            this.done=true;
+        }
     }
-    
-    if (this.currAng >= this.endAng && this.active) {
-        this.done = true;  
-        this.currAng = 0;
-        this.setInactive();
-        this.scene.updateCurrAnim();
+    else if(this.state=="MOVE"){
+        x=(xf-xi)*(this.frameTime/(this.span/2));
+        z=(yf-yi)*(this.frameTime/(this.span/2));
+
+        if(this.frameTime>this.span/2){
+            this.state=="DOWN";
+            this.frameTime-=this.span/2;
+            this.done=true;
+        }
     }
+                 
+    var matrix = mat4.create();
+    mat4.identity(matrix);
     
-    return this.lastMatrix;
+    mat4.translate(matrix, matrix, vec3.fromValues(x,y,z));
+    
+
+    return matrix;
 }
 
+
 /**
- * Generates a rotation matrix with the given angle
- * @param {float} angle 
+ * Calculation of the animation's velocity (ms)
  */
-CircularAnimation.prototype.rotate = function(angle) {    
-    var rotMatrix = mat4.create();
-    mat4.identity(rotMatrix);
-        
-    mat4.translate(rotMatrix, rotMatrix, this.center);    
-    mat4.rotateY(rotMatrix, rotMatrix, degToRad(angle));
-
-    //puxa centro para origem
-    mat4.translate(rotMatrix, rotMatrix,vec3.fromValues(-this.center[0],-this.center[1],-this.center[2]));
-
-    mat4.multiply(rotMatrix, rotMatrix, this.initMatrix);
-    
-    return rotMatrix;
+LinearAnimation.prototype.calcVelocity = function(distance,time) {
+    this.velocity = distance / (time * 1000);
 }
