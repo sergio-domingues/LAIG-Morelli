@@ -81,8 +81,11 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 Morreli.prototype.updateTime = function(currTime) {
     this.stateTime+=currTime-this.lastLastTick;
+    for(var i=0;i<this.board.animations.length;i++){
+        this.board.animations[i].addTime(currTime);
+    }
 
-    console.log(this.currentState);
+    //console.log(this.currentState);
 }
 
 Morreli.prototype.getValidMoves = function(selected) {

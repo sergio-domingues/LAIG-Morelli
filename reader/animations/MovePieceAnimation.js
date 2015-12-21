@@ -11,11 +11,11 @@
  * @param {int} rotAng - rotation angle to be applied
  */
 function MovePieceAnimation(scene,posInitial,posFinal) {
-    Animation.call(this, scene, "movePiece", "movePiece", 1);
+    Animation.call(this, scene, "movePiece", "movePiece", 4);
     this.xf=posFinal[0];
     this.yf=posFinal[1];
     this.xi=posInitial[0];
-    this.yi=posInitial[0];
+    this.yi=posInitial[1];
     this.state="UP";
     this.timeUpDown=this.span/4
     
@@ -33,48 +33,48 @@ MovePieceAnimation.prototype.init = function() {
     this.velocityUpDown=this.calcVelocity();
 }
 
-/**
- * Adds controlpoint to animation's controlpoint array
- * @param {float} x 
- * @param {float} y 
- * @param {float} z 
- */
 
 /**
  * Updates animation and returns the animation's actual matrix
  */
 MovePieceAnimation.prototype.getMatrix = function() {
 
-    var x,y,z;
+    var x=0,y=0,z=0;
 
     if(this.state=="UP"){
+        var timeToState=(this.span/4)*1000;        
         x=this.xi;
         z=this.yi;
-        y=1*(this.frameTime/(this.span/4));
+        y=1*(this.frameTime/timeToState);
 
-        if(this.frameTime>this.span/4){
-            this.state=="MOVE";
-            this.frameTime-=this.span/4;
+        if(this.frameTime>timeToState){
+            this.state="MOVE";
+            console.log(this.frameTime)
+            this.frameTime-=timeToState;
         }
     }else if(this.state=="DOWN"){
         x=this.xf;
         z=this.yf;
-        y=1-(1*(this.frameTime/(this.span/4)));
+        var timeToState=(this.span/4)*1000;
+        y=1-(1*(this.frameTime/timeToState));
 
-        if(this.frameTime>this.span/4){
-            this.state=="DONE";
-            this.frameTime-=this.span/4;
+        if(this.frameTime>timeToState){
+            this.state="DONE";
+            
+            this.frameTime-=timeToState;
             this.done=true;
         }
     }
     else if(this.state=="MOVE"){
-        x=(xf-xi)*(this.frameTime/(this.span/2));
-        z=(yf-yi)*(this.frameTime/(this.span/2));
+         var timeToState=(this.span/2)*1000;
+        x=(this.xf-this.xi)*(this.frameTime/timeToState);
+        y=1;
+        z=(this.yf-this.yi)*(this.frameTime/timeToState);
 
-        if(this.frameTime>this.span/2){
-            this.state=="DOWN";
-            this.frameTime-=this.span/2;
-            this.done=true;
+        if(this.frameTime>timeToState){
+            this.state="DOWN";
+            this.frameTime-=timeToState;
+           
         }
     }
                  

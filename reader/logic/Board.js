@@ -7,6 +7,7 @@ function Board(scene, size) {
     
     this.pieceSelected = [];
     this.pathHighlighted = [];
+    this.animations=[];
     
     this.init();
 }
@@ -56,7 +57,6 @@ Board.prototype.init = function() {
         var colorIndex = Math.min(colorIndexX, colorIndexY);
         
         this.board[i] = new Cell(this.scene,colorIndex,pos["x"],pos["y"]);
-    
     }
 
 }
@@ -70,6 +70,8 @@ Board.prototype.initTab = function(data) {
             }
         }
     }
+    this.logicBoard[0].animation= new MovePieceAnimation(this.scene,[0,0],[4,4]);
+    this.animations.push(this.logicBoard[0].animation)
 }
 
 Board.prototype.highlightPath = function(array) {
