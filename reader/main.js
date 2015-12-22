@@ -16,7 +16,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'assocMap.js',
 				'primitives/MySphere.js', 'GraphTree.js','GraphTree_node.js','GraphTree_leaf.js','MyTexture.js',
 				'MyInterface.js','primitives/MyPlane.js','primitives/MyPatch.js','primitives/MyTerrain.js','primitives/MyVehicle.js',
                 'animations/Animation.js','animations/LinearAnimation.js','animations/CircularAnimation.js', 'animations/ComposedAnimation.js',
-                'primitives/MyTile.js','logic/Board.js','logic/Cell.js','logic/Connection.js','logic/Piece.js','logic/GameState.js','animations/MovePieceAnimation.js','animations/CapturePieceAnimation.js',
+                'primitives/MyTile.js','logic/Board.js','logic/Cell.js','logic/Connection.js','logic/Piece.js','logic/GameState.js','animations/MovePieceAnimation.js','animations/CapturePieceAnimation.js','animations/ComplexAnimation.js',
 
 
 main=function()

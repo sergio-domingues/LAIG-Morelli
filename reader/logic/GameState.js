@@ -4,7 +4,7 @@ function Morreli(scene, size, gamemode) {
     this.size = size;
     this.board = new Board(scene,size);
     this.mode = gamemode;
-    if(this.mode!="human"){
+    if(this.mode[0]!="human"){
         this.currentState="BOT"
     }else{
         this.currentState="INIT"

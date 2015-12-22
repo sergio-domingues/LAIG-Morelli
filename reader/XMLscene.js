@@ -62,7 +62,7 @@ XMLscene.prototype.init = function(application) {
 
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.morreli = new Morreli(this,9,["bot2","bot1"]);
+    this.morreli = new Morreli(this,13,["human","bot1"]);
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);

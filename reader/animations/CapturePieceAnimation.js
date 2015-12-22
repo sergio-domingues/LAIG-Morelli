@@ -1,5 +1,5 @@
 function CapturePieceAnimation(scene,pos,piece) {
-    Animation.call(this, scene, "capturePiece", "capturePiece", 2);
+    Animation.call(this, scene, "capturePiece", "capturePiece", 1.5);
     this.x=pos[0];
     this.y=pos[1];
     this.piece=piece;

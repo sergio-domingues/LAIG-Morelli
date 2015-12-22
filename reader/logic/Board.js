@@ -112,6 +112,7 @@ Board.prototype.movePiece = function(board) {
 
     var difference=this.diff(this.logicBoardInitial,board);
     console.log(difference);
+    var anim=new ComplexAnimation();
 
     var piece = this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]];
     piece.x = difference["move"]["new"][0];
@@ -120,15 +121,15 @@ Board.prototype.movePiece = function(board) {
     this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]] = undefined;
     this.logicBoard[difference["move"]["new"][1] * this.size + difference["move"]["new"][0]] = piece;
     
-    var anim=new MovePieceAnimation(this.scene,difference["move"]["old"],difference["move"]["new"]);
-    piece.animation=anim;
-    this.animations.push(anim);
+    var animMove=new MovePieceAnimation(this.scene,difference["move"]["old"],difference["move"]["new"]);
+    piece.animation=animMove;
+    anim.addAnimation(animMove);
     
     if(difference["capture"].length>0){
         var piece=this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]];
-        var anim=new CapturePieceAnimation(this.scene,difference["capture"],piece);
-        piece.animation=anim;
-        this.animations.push(anim);
+        var animCapture=new CapturePieceAnimation(this.scene,difference["capture"],piece);
+        piece.animation=animCapture;
+        anim.addAnimation(animCapture);
     }
 
     if(difference["throne"]!=-1){
@@ -141,7 +142,8 @@ Board.prototype.movePiece = function(board) {
         }
     }
 
-
+    
+    this.animations.push(anim);
     
     
     this.clearPath();
