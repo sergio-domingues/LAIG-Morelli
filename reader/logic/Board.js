@@ -70,8 +70,8 @@ Board.prototype.initTab = function(data) {
             }
         }
     }
-    this.logicBoard[0].animation= new MovePieceAnimation(this.scene,[0,0],[4,4]);
-    this.animations.push(this.logicBoard[0].animation)
+   //this.logicBoard[1].animation= new CapturePieceAnimation(this.scene,[1,0],this.logicBoard[1]);
+   //this.animations.push(this.logicBoard[1].animation);
 }
 
 Board.prototype.highlightPath = function(array) {
@@ -120,10 +120,15 @@ Board.prototype.movePiece = function(board) {
     this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]] = undefined;
     this.logicBoard[difference["move"]["new"][1] * this.size + difference["move"]["new"][0]] = piece;
     
+    var anim=new MovePieceAnimation(this.scene,difference["move"]["old"],difference["move"]["new"]);
+    piece.animation=anim;
+    this.animations.push(anim);
     
     if(difference["capture"].length>0){
-        var player=this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]].player;
-        this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]].player=(1-player);
+        var piece=this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]];
+        var anim=new CapturePieceAnimation(this.scene,difference["capture"],piece);
+        piece.animation=anim;
+        this.animations.push(anim);
     }
 
     if(difference["throne"]!=-1){
@@ -135,6 +140,8 @@ Board.prototype.movePiece = function(board) {
             this.logicBoard[middle].player=difference["throne"];
         }
     }
+
+
     
     
     this.clearPath();

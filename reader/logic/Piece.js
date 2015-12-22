@@ -12,23 +12,25 @@ Piece.prototype.constructor = Piece;
 
 Piece.prototype.display = function() {
     this.scene.pushMatrix();
-    if(this.player==1){
+    if (this.player == 1) {
         this.scene.white.apply();
-    }else if(this.player==0){
+    } else if (this.player == 0) {
         this.scene.black.apply();
     }
-    if(this.animation){
-        var matrix=this.animation.getMatrix();
+    
+    if (this.animation && !this.animation.done ) {
+        var matrix = this.animation.getMatrix();
         this.scene.multMatrix(matrix);
-    }
-
-    if(this.highlighted){
-    this.scene.translate(this.x, 1, this.y);
     }else{
-    this.scene.translate(this.x, 0.7, this.y);
+    if (this.highlighted) {
+        this.scene.translate(this.x, 1, this.y);
+    } else {
+        this.scene.translate(this.x, 0.7, this.y);
     }
+    }
+    
     this.primitive.display();
-
+    
     this.scene.popMatrix();
 }
 

@@ -108,8 +108,8 @@ XMLscene.prototype.init = function(application) {
 
     this.white = new CGFappearance(this);
     this.white.setAmbient(1, 1, 1, 1);
-    this.white.setDiffuse(1, 1, 1, 1);
-    this.white.setSpecular(1, 1, 1, 1);
+    this.white.setDiffuse(0.5, 0.5, 0.5, 1);
+    this.white.setSpecular(0.5, 0.5, 0.5, 1);
     this.white.setShininess(100);
 
     this.black = new CGFappearance(this);
@@ -120,7 +120,7 @@ XMLscene.prototype.init = function(application) {
     
     this.colors = [this.red, this.orange, this.yellow, this.green, this.blue, this.purplefagg, this.purple];
     
-    this.setUpdatePeriod(100);
+    this.setUpdatePeriod(40);
     
     this.setPickEnabled(true);
    

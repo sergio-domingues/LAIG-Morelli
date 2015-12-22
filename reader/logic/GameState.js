@@ -84,8 +84,6 @@ Morreli.prototype.updateTime = function(currTime) {
     for(var i=0;i<this.board.animations.length;i++){
         this.board.animations[i].addTime(currTime);
     }
-
-    //console.log(this.currentState);
 }
 
 Morreli.prototype.getValidMoves = function(selected) {
@@ -123,9 +121,6 @@ Morreli.prototype.checkEndGame = function() {
         }
         
     });
-    {
-    
-    }
 }
 
 Morreli.prototype.botRandom =function(){
