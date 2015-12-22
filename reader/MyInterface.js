@@ -41,5 +41,10 @@ MyInterface.prototype.updateInterface = function(){
         group.add(this.scene.lightsOn, onOff).onChange(function(enabled) {
             interface.scene.updateGuiLights(this.property, enabled);
         });
-    }	
+    }
+
+    //botao undo
+    
+     group.add(this.scene.morreli, "undo");
+    	
 };

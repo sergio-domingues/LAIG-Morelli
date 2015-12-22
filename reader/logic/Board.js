@@ -3,7 +3,7 @@ function Board(scene, size) {
     this.scene = scene;
     this.board = [];
     this.logicBoard = [];
-    this.logicBoardInitial = [];
+    this.history = new History();
     
     this.pieceSelected = [];
     this.pathHighlighted = [];
@@ -62,7 +62,7 @@ Board.prototype.init = function() {
 }
 
 Board.prototype.initTab = function(data) {
-    this.logicBoardInitial = data;
+    this.history.push(data);
     for (var y = 0; y < data.length; y++) {
         for (x = 0; x < data.length; x++) {
             if (data[y][x] == 0 || data[y][x] == 1) {
@@ -110,7 +110,7 @@ Board.prototype.getCoords = function(pos) {
 
 Board.prototype.movePiece = function(board) {
 
-    var difference=this.diff(this.logicBoardInitial,board);
+    var difference=this.history.diff(board);
     console.log(difference);
     var anim=new ComplexAnimation();
 
@@ -147,43 +147,12 @@ Board.prototype.movePiece = function(board) {
     
     
     this.clearPath();
-    this.logicBoardInitial=board;
+    this.history.push(board);
 
 }
 
-Board.prototype.diff = function(tabOld, tabNew) {
+Board.prototype.undo = function() {
     
-    var newPos = [];
-    var oldPos = [];
-    var capture = [];
-    
-    for (var i = 0; i < this.size; i++) {
-        for (var j = 0; j < this.size; j++) {
-            
-            if (tabOld[i][j] != tabNew[i][j] && !(i==Math.floor(this.size/2) && j==Math.floor(this.size/2))) {
-                if (tabOld[i][j] == -1 && tabNew[i][j] != -1) {
-                    piece = tabNew[i][j];
-                    newPos[0] = j;
-                    newPos[1] = i;
-                } else if (tabOld[i][j] != -1 && tabNew[i][j] == -1) {
-                    piece = tabNew[i][j];
-                    oldPos[0] = j;
-                    oldPos[1] = i;
-                } else if (tabOld[i][j] == (1 - tabNew[i][j])) {
-                    capture.push(j, i);
-                }
-            }
-        }
-    }
-    
-    return {
-        "move": {
-            "new": newPos,
-            "old": oldPos
-        },
-        "capture": capture,
-        "throne": tabNew[Math.floor(this.size / 2)][Math.floor(this.size / 2)]%10
-    
-    }
-
 }
+
+

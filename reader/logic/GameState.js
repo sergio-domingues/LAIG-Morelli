@@ -86,10 +86,16 @@ Morreli.prototype.updateTime = function(currTime) {
     }
 }
 
+Morreli.prototype.undo = function() {
+    if(this.currentState=="INIT"){
+        this.board.undo();
+    }
+}
+
 Morreli.prototype.getValidMoves = function(selected) {
     var self = this;
     var pos = this.getCoords(selected - 201);
-    this.connection.validMoves(this.board.logicBoardInitial, this.size, this.player, pos.x + 1, pos.y + 1, function(positions) {
+    this.connection.validMoves(this.board.history.top(), this.size, this.player, pos.x + 1, pos.y + 1, function(positions) {
         self.board.highlightPath(positions);
     });
 }
@@ -97,7 +103,7 @@ Morreli.prototype.getValidMoves = function(selected) {
 Morreli.prototype.movePiece = function(xf, yf) {
     var self = this;
     
-    this.connection.movePiece(this.board.logicBoardInitial, this.size, this.player, this.board.pieceSelected[0] + 1, this.board.pieceSelected[1] + 1, xf + 1, yf + 1, function(board) {
+    this.connection.movePiece(this.board.history.top(), this.size, this.player, this.board.pieceSelected[0] + 1, this.board.pieceSelected[1] + 1, xf + 1, yf + 1, function(board) {
         self.board.movePiece(board);
         self.checkEndGame();
     });
@@ -107,7 +113,7 @@ Morreli.prototype.movePiece = function(xf, yf) {
 Morreli.prototype.checkEndGame = function() {
     var self = this;
     
-    this.connection.checkGameOver(this.board.logicBoardInitial, this.size, 1-this.player, function(data) {
+    this.connection.checkGameOver(this.board.history.top(), this.size, 1-this.player, function(data) {
         console.log(data);
         if (data) {
             self.currentState = "GAMEOVER";
