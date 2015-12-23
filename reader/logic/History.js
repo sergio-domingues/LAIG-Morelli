@@ -64,3 +64,8 @@ History.prototype.diff = function(tabNew) {
 
 }
 
+History.prototype.undo = function() {
+    var diff=this.diff(this.boardHistory[this.boardHistory.length-2]);
+    this.pop();
+    return diff;
+}

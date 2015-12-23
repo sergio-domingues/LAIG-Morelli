@@ -88,7 +88,7 @@ Morreli.prototype.updateTime = function(currTime) {
 
 Morreli.prototype.undo = function() {
     if(this.currentState=="INIT"){
-        this.board.undo();
+        this.board.movePiece(this.board.history.undo())
     }
 }
 
@@ -104,7 +104,9 @@ Morreli.prototype.movePiece = function(xf, yf) {
     var self = this;
     
     this.connection.movePiece(this.board.history.top(), this.size, this.player, this.board.pieceSelected[0] + 1, this.board.pieceSelected[1] + 1, xf + 1, yf + 1, function(board) {
-        self.board.movePiece(board);
+
+        self.board.movePiece(self.board.history.diff(board));
+                self.board.history.push(board);
         self.checkEndGame();
     });
 
@@ -132,8 +134,9 @@ Morreli.prototype.checkEndGame = function() {
 Morreli.prototype.botRandom =function(){
     var self = this;
     
-    this.connection.randomMove(this.board.logicBoardInitial, this.size,this.player, function(board) {
-        self.board.movePiece(board);
+    this.connection.randomMove(this.board.history.top(), this.size,this.player, function(board) {
+        self.board.movePiece(self.board.history.diff(board));
+        self.board.history.push(board);
         self.checkEndGame();
     });
 }
@@ -141,8 +144,9 @@ Morreli.prototype.botRandom =function(){
 Morreli.prototype.botSmart =function(){
     var self = this;
     
-    this.connection.smartMove(this.board.logicBoardInitial, this.size,this.player, function(board) {
-        self.board.movePiece(board);
+    this.connection.smartMove(this.board.history.top(), this.size,this.player, function(board) {
+        self.board.movePiece(self.board.history.diff(board));
+        self.board.history.push(board);
         self.checkEndGame();
     });
 }
@@ -156,40 +160,4 @@ Morreli.prototype.getCoords = function(pos) {
         "y": y
     
     }
-}
-
-//@deprecated
-Morreli.prototype.getMode = function(gamemode) {
-    var player1 = gamemode[0];
-    var player2 = gamemode[1]+gamemode[2];
-    var mode = {};
-    
-    switch (player1) {
-    case "H":
-        mode[0] = "human";
-        break;
-    
-    case "B1":
-        mode[0] = "bot1";
-        break;
-    case "B2":
-        mode[0] = "bot2";
-        break;
-    }
-    
-    switch (player2) {
-    case "H":
-        mode[1] = "human";
-        break;
-    
-    case "B1":
-        mode[1] = "bot1";
-        break;
-    case "B2":
-        mode[1] = "bot2";
-        break;
-    }
-
-    return mode;
-
 }

@@ -108,9 +108,8 @@ Board.prototype.getCoords = function(pos) {
     }
 }
 
-Board.prototype.movePiece = function(board) {
-
-    var difference=this.history.diff(board);
+Board.prototype.movePiece = function(difference) {
+    
     console.log(difference);
     var anim=new ComplexAnimation();
 
@@ -147,12 +146,5 @@ Board.prototype.movePiece = function(board) {
     
     
     this.clearPath();
-    this.history.push(board);
-
 }
-
-Board.prototype.undo = function() {
-    
-}
-
 
