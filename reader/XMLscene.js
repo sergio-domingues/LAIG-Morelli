@@ -130,7 +130,7 @@ XMLscene.prototype.init = function(application) {
 
 /** Initializes cameras */
 XMLscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.4,0.1,500,vec3.fromValues(15, 15, 15),vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.5,0.1,500,vec3.fromValues(7.5, 7, 14),vec3.fromValues(7.5,1.05,7));
 }
 ;
 
@@ -181,6 +181,7 @@ XMLscene.prototype.logPicking = function()
     if (this.pickMode == false) {
         if (this.pickResults != null  && this.pickResults.length > 0) {
             for (var i = 0; i < this.pickResults.length; i++) {
+                //this.camera.orbit(CGFcameraAxisID.Y,Math.PI/2)
                 var obj = this.pickResults[i][0];
                 if (obj) 
                 {
@@ -192,6 +193,7 @@ XMLscene.prototype.logPicking = function()
             this.pickResults.splice(0, this.pickResults.length);
         }
     }
+
 }
 
 /** Set's scene's interface (MyInterface) */
@@ -234,8 +236,13 @@ XMLscene.prototype.display = function() {
         
         
         this.updateLights();
+        this.pushMatrix()
+        this.translate(6.7,1.05,6.6);
+        this.scale(0.15,0.15,0.15)
         this.morreli.display();
-        //this.getObjects(this.graph_tree.root_id);
+        this.popMatrix()
+
+        this.getObjects(this.graph_tree.root_id);
     }
 
 }

@@ -6,7 +6,7 @@
     <rotation axis="x" angle="0" />                  <!-- initial rotation 3 -->
     <rotation axis="y" angle="0" />                  <!-- initial rotation 2 -->
     <rotation axis="z" angle="0" />                  <!-- initial rotation 1 -->
-    <scale sx="0.5" sy="0.5" sz="0.5" />                  <!-- initial scaling -->
+    <scale sx="1" sy="1" sz="1" />                  <!-- initial scaling -->
     <reference length="10" />                          <!-- axis length; "0" means no axis-->
 </INITIALS>
 
@@ -166,7 +166,6 @@
 	<LEAF id="parede" type="rectangle" args="0 7 15 0 " />
 	<LEAF id="chao" type="rectangle" args="15 0 0 15" />
 	<LEAF id="vasoTronco" type ="cylinder" args="1 0.2 0.5 5 20" />
-	<LEAF id="incensoTriangulo" type="triangle" args="-0.5 0 0.5  0.5 0 0.5  0 1 0" />
 	<LEAF id="circle" type="cylinder" args="0 0.5 0 5 20" />
 </LEAVES>
 
@@ -204,7 +203,6 @@
         	<DESCENDANT id="paralelepipedo" />
         	<DESCENDANT id="vaso1" />
         	<DESCENDANT id="vaso2" />
-        	<DESCENDANT id="incenso" />
 
         </DESCENDANTS>
 

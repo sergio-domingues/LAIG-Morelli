@@ -3,7 +3,6 @@ function Board(scene, size) {
     this.scene = scene;
     this.board = [];
     this.logicBoard = [];
-    this.history = new History();
     
     this.pieceSelected = [];
     this.pathHighlighted = [];
@@ -62,7 +61,6 @@ Board.prototype.init = function() {
 }
 
 Board.prototype.initTab = function(data) {
-    this.history.push(data);
     for (var y = 0; y < data.length; y++) {
         for (x = 0; x < data.length; x++) {
             if (data[y][x] == 0 || data[y][x] == 1) {
