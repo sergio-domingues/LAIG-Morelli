@@ -48,3 +48,7 @@ MyInterface.prototype.updateInterface = function(){
      group.add(this.scene.morreli, "undo");
     	
 };
+
+MyInterface.prototype.processMouse =function(){
+	
+}

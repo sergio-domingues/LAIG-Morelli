@@ -50,19 +50,19 @@ XMLscene.prototype.init = function(application) {
     this.axis = new CGFaxis(this);
     
     this.interface = {};
-
-
-    this.borda=new CGFtexture(this,"resources/borda.png");
-
-    this.amarelo=new CGFappearance(this);
-    this.amarelo.setAmbient(1,1,0,1);
-    this.amarelo.setDiffuse(1,1,0,1); 
-    this.amarelo.setSpecular(1,1,0,1); 
-    this.amarelo.setShininess(100); 
-
+    
+    
+    this.borda = new CGFtexture(this,"resources/borda.png");
+    
+    this.amarelo = new CGFappearance(this);
+    this.amarelo.setAmbient(1, 1, 0, 1);
+    this.amarelo.setDiffuse(1, 1, 0, 1);
+    this.amarelo.setSpecular(1, 1, 0, 1);
+    this.amarelo.setShininess(100);
+    
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.morreli = new Morreli(this,13,["human","bot1"]);
+    this.morreli = new Morreli(this,13,["human", "bot1"]);
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);
@@ -105,13 +105,13 @@ XMLscene.prototype.init = function(application) {
     this.purplefagg.setDiffuse(0.4, 0, 0.8, 1);
     this.purplefagg.setSpecular(0.4, 0, 0.8, 1);
     this.purplefagg.setShininess(100);
-
+    
     this.white = new CGFappearance(this);
     this.white.setAmbient(1, 1, 1, 1);
     this.white.setDiffuse(0.5, 0.5, 0.5, 1);
     this.white.setSpecular(0.5, 0.5, 0.5, 1);
     this.white.setShininess(100);
-
+    
     this.black = new CGFappearance(this);
     this.black.setAmbient(0, 0, 0, 1);
     this.black.setDiffuse(0, 0, 0, 1);
@@ -123,14 +123,14 @@ XMLscene.prototype.init = function(application) {
     this.setUpdatePeriod(40);
     
     this.setPickEnabled(true);
-   
-    
+
+
 }
 ;
 
 /** Initializes cameras */
 XMLscene.prototype.initCameras = function() {
-    this.camera = new CGFcamera(0.5,0.1,500,vec3.fromValues(7.5, 7, 14),vec3.fromValues(7.5,1.05,7));
+    this.camera = new CGFcamera(0.5,0.1,500,vec3.fromValues(7.5, 7, 14),vec3.fromValues(7.5, 1.05, 7));
 }
 ;
 
@@ -186,7 +186,7 @@ XMLscene.prototype.logPicking = function()
                 if (obj) 
                 {
                     var customId = this.pickResults[i][1];
-                    this.morreli.updateClick(customId,this.pickResults[i][0]);
+                    this.morreli.updateClick(customId, this.pickResults[i][0]);
                     console.log("Picked object: " + obj + ", with pick id " + customId);
                 }
             }
@@ -237,11 +237,11 @@ XMLscene.prototype.display = function() {
         
         this.updateLights();
         this.pushMatrix()
-        this.translate(6.7,1.05,6.6);
-        this.scale(0.15,0.15,0.15)
+        this.translate(6.7, 1.05, 6.6);
+        this.scale(0.15, 0.15, 0.15)
         this.morreli.display();
         this.popMatrix()
-
+        
         this.getObjects(this.graph_tree.root_id);
     }
 
@@ -359,6 +359,6 @@ XMLscene.prototype.update = function(currTime) {
             this.animations[i].addTime(currTime);
         }
     }
-
+    
     this.morreli.updateTime(currTime);
 }

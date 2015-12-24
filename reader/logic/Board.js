@@ -146,3 +146,14 @@ Board.prototype.movePiece = function(difference) {
     this.clearPath();
 }
 
+
+Board.prototype.isAnimDone = function(){
+    var done=true;
+    for(var i=0;i<this.animations.length;i++){
+        if(!this.animations.done){
+            var done =false;
+            return;
+        }
+    }
+    return done;
+}

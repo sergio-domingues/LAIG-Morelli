@@ -1,5 +1,7 @@
 function Morreli(scene, size, gamemode) {
     this.player = 0;
+    this.scene = scene;
+    this.stateTimeMax = 0;
     this.stateTime = 0;
     this.size = size;
     this.board = new Board(scene,size);
@@ -13,6 +15,7 @@ function Morreli(scene, size, gamemode) {
     this.lastLastTick = Date.now();
     this.init();
     this.history = new History();
+    this.anim;
 
 }
 
@@ -39,6 +42,7 @@ Morreli.prototype.updateClick = function(id, piece) {
         }
     }//Peca selecionada e carrega novamente numa peca
      
+    
     
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
@@ -84,9 +88,39 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 Morreli.prototype.updateTime = function(currTime) {
     this.stateTime += currTime - this.lastLastTick;
+    
+    
     for (var i = 0; i < this.board.animations.length; i++) {
         this.board.animations[i].addTime(currTime);
     }
+    if (this.anim) {
+        this.anim.addTime(currTime);
+    }
+    
+    
+    if (this.currentState == "CHANGEPLAYER") {
+        if (this.anim && !this.anim.done) {
+            this.anim.display();
+        } else if (this.anim.done) {
+            
+            this.currentState = "INIT";
+        }
+    }
+    if (this.currentState == "ANIM") {
+        if (this.stateTimeMax > 0) {
+            this.stateTimeMax -= (currTime - this.lastLastTick) / 1000;
+        } else 
+        if (this.mode[this.player] == "bot1" || this.mode[this.player] == "bot2") {
+            this.currentState = "BOT";
+        } else if(this.mode[0] != "human" && this.mode[1]!="human"){
+            this.currentState = "CHANGEPLAYER";
+            this.anim = new CameraAnimation(this.scene);
+        }else{
+            this.currentState="INIT";
+        }
+    }   
+    this.lastLastTick = currTime;
+
 }
 
 Morreli.prototype.undo = function() {
@@ -111,6 +145,8 @@ Morreli.prototype.movePiece = function(xf, yf) {
     this.connection.movePiece(this.history.top(), this.size, this.player, this.board.pieceSelected[0] + 1, this.board.pieceSelected[1] + 1, xf + 1, yf + 1, function(board) {
         
         self.board.movePiece(self.history.diff(board));
+        self.currentState = "ANIM";
+        self.stateTimeMax = 2;
         self.history.push(board);
         self.checkEndGame();
     });
@@ -127,10 +163,6 @@ Morreli.prototype.checkEndGame = function() {
         } 
         else {
             self.player = (1 - self.player);
-            if (self.mode[self.player] == "bot1" || self.mode[self.player] == "bot2") {
-                self.currentState = "BOT";
-            } else
-                self.currentState = "INIT";
         }
     
     });
@@ -141,6 +173,8 @@ Morreli.prototype.botRandom = function() {
     
     this.connection.randomMove(this.history.top(), this.size, this.player, function(board) {
         self.board.movePiece(self.history.diff(board));
+        self.currentState = "ANIM";
+        self.stateTimeMax = 2;
         self.history.push(board);
         self.checkEndGame();
     });
@@ -151,6 +185,8 @@ Morreli.prototype.botSmart = function() {
     
     this.connection.smartMove(this.history.top(), this.size, this.player, function(board) {
         self.movePiece(self.history.diff(board));
+        self.currentState = "ANIM";
+        self.stateTimeMax = 2;
         self.history.push(board);
         self.checkEndGame();
     });
