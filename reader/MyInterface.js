@@ -49,6 +49,6 @@ MyInterface.prototype.updateInterface = function(){
     	
 };
 
-MyInterface.prototype.processMouse =function(){
+/*MyInterface.prototype.processMouse =function(){
 	
-}
+}*/
