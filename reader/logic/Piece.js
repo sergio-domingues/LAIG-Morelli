@@ -1,9 +1,12 @@
-function Piece(scene, player, x, y) {
+function Piece(scene, player, x, y, type) {
     this.player = player;
     this.scene = scene;
     this.x = x;
     this.y = y;
-    this.primitive = new MyPiece(scene);
+    if (type == "throne") {
+        this.primitive = new MyCrown(scene);
+    } else
+        this.primitive = new MyPiece(scene);
     this.highlighted = false;
     this.animation;
 }
@@ -18,15 +21,15 @@ Piece.prototype.display = function() {
         this.scene.black.apply();
     }
     
-    if (this.animation && !this.animation.done ) {
+    if (this.animation && !this.animation.done) {
         var matrix = this.animation.getMatrix();
         this.scene.multMatrix(matrix);
-    }else{
-    if (this.highlighted) {
-        this.scene.translate(this.x, 1, this.y);
     } else {
-        this.scene.translate(this.x, 0.7, this.y);
-    }
+        if (this.highlighted) {
+            this.scene.translate(this.x, 1, this.y);
+        } else {
+            this.scene.translate(this.x, 0.7, this.y);
+        }
     }
     
     this.primitive.display();

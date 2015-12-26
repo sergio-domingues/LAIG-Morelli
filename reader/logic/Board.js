@@ -6,7 +6,7 @@ function Board(scene, size) {
     
     this.pieceSelected = [];
     this.pathHighlighted = [];
-    this.animations=[];
+    this.animations = [];
     
     this.init();
 }
@@ -42,6 +42,7 @@ Board.prototype.init = function() {
         var colorIndexY = pos["y"]
           
         
+        
         , colorIndexX = pos["x"];
         
         if (pos["x"] > this.size / 2) {
@@ -68,8 +69,8 @@ Board.prototype.initTab = function(data) {
             }
         }
     }
-   //this.logicBoard[1].animation= new CapturePieceAnimation(this.scene,[1,0],this.logicBoard[1]);
-   //this.animations.push(this.logicBoard[1].animation);
+    this.logicBoard[1].animation = new CrownAnimation(this.scene,[1, 0]);
+    this.animations.push(this.logicBoard[1].animation);
 }
 
 Board.prototype.highlightPath = function(array) {
@@ -83,12 +84,12 @@ Board.prototype.clearPath = function() {
     for (var i = 0; i < this.pathHighlighted.length; i++) {
         this.board[(this.pathHighlighted[i][1] - 1) * this.size + (this.pathHighlighted[i][0] - 1)].setHighlighted();
     }
-    this.pathHighlighted=[];
+    this.pathHighlighted = [];
 }
 
-Board.prototype.isPath = function(index){
-    for(var i =0;i<this.pathHighlighted.length;i++){
-        if(this.pathHighlighted[i][0]==index.x+1 && this.pathHighlighted[i][1]==index.y+1){
+Board.prototype.isPath = function(index) {
+    for (var i = 0; i < this.pathHighlighted.length; i++) {
+        if (this.pathHighlighted[i][0] == index.x + 1 && this.pathHighlighted[i][1] == index.y + 1) {
             return true;
         }
     }
@@ -108,37 +109,43 @@ Board.prototype.getCoords = function(pos) {
 
 Board.prototype.movePiece = function(difference) {
     
-    console.log(difference);
-    var anim=new ComplexAnimation();
-
+    //console.log(difference);
+    var anim = new ComplexAnimation();
+    
     var piece = this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]];
     piece.x = difference["move"]["new"][0];
     piece.y = difference["move"]["new"][1];
-    piece.highlighted=false;
+    piece.highlighted = false;
     this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]] = undefined;
     this.logicBoard[difference["move"]["new"][1] * this.size + difference["move"]["new"][0]] = piece;
     
-    var animMove=new MovePieceAnimation(this.scene,difference["move"]["old"],difference["move"]["new"]);
-    piece.animation=animMove;
+    var animMove = new MovePieceAnimation(this.scene,difference["move"]["old"],difference["move"]["new"]);
+    piece.animation = animMove;
     anim.addAnimation(animMove);
     
-    if(difference["capture"].length>0){
-        var piece=this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]];
-        var animCapture=new CapturePieceAnimation(this.scene,difference["capture"],piece);
-        piece.animation=animCapture;
+    if (difference["capture"].length > 0) {
+        var piece = this.logicBoard[difference["capture"][1] * this.size + difference["capture"][0]];
+        var animCapture = new CapturePieceAnimation(this.scene,difference["capture"],piece);
+        piece.animation = animCapture;
         anim.addAnimation(animCapture);
     }
-
-    if(difference["throne"]!=-1){
-        var middle=Math.floor(this.size/2)*this.size+Math.floor(this.size/2);
+    
+    if (difference["throne"] != -1) {
+        var middle = Math.floor(this.size / 2) * this.size + Math.floor(this.size / 2);
         
-        if(this.logicBoard[middle]===undefined){
-            this.logicBoard[middle]=new Piece(this.scene,difference["throne"],Math.floor(this.size/2),Math.floor(this.size/2));
-        }else{
-            this.logicBoard[middle].player=difference["throne"];
+        if (this.logicBoard[middle] === undefined) {
+            this.logicBoard[middle] = new Piece(this.scene,difference["throne"],Math.floor(this.size / 2),Math.floor(this.size / 2),"throne");
+            var crownCapture = new CrownAnimation(this.scene,Math.floor(this.size / 2),Math.floor(this.size / 2));
+            this.logicBoard[middle].animation = crownCapture;
+            anim.addAnimation(crownCapture);
+        } else {
+            this.logicBoard[middle].player = difference["throne"];
+            var animCapture = new CapturePieceAnimation(this.scene,Math.floor(this.size / 2),Math.floor(this.size / 2),this.logicBoard[middle]);
+            this.logicBoard[middle].animation = animCapture;
+            anim.addAnimation(animCapture);
         }
     }
-
+    
     
     this.animations.push(anim);
     
@@ -147,11 +154,11 @@ Board.prototype.movePiece = function(difference) {
 }
 
 
-Board.prototype.isAnimDone = function(){
-    var done=true;
-    for(var i=0;i<this.animations.length;i++){
-        if(!this.animations.done){
-            var done =false;
+Board.prototype.isAnimDone = function() {
+    var done = true;
+    for (var i = 0; i < this.animations.length; i++) {
+        if (!this.animations.done) {
+            var done = false;
             return;
         }
     }

@@ -5,9 +5,6 @@
 function XMLscene() {
     CGFscene.call(this);
     
-    //cria arvore (grafo) que aramazena nodes/leafs
-    this.graph_tree = new GraphTree();
-    
     this.currentAnimation = 0;
 }
 
@@ -51,6 +48,7 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
     
+    this.crown = new MyCrown(this);
     
     this.borda = new CGFtexture(this,"resources/borda.png");
     
@@ -62,7 +60,7 @@ XMLscene.prototype.init = function(application) {
     
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.morreli = new Morreli(this,13,["human", "bot1"]);
+    this.morreli = new Morreli(this,13,["human", "human"]);
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);
@@ -242,13 +240,20 @@ XMLscene.prototype.display = function() {
         this.popMatrix();
 
         this.multMatrix(this.initialTransformation);
-                
         this.updateLights();
+        this.crown.display();
         this.pushMatrix()
         this.translate(6.7, 1.05, 6.6);
-        this.scale(0.15, 0.15, 0.15)
+        this.scale(0.15, 0.15, 0.15);
         this.morreli.display();
-        this.popMatrix()
+        
+        //this.translate(6, 1.5, 6);
+       
+        
+        this.popMatrix();
+        
+        
+        
         
         this.getObjects(this.graph_tree.root_id);
     }
@@ -369,4 +374,8 @@ XMLscene.prototype.update = function(currTime) {
     }
     
     this.morreli.updateTime(currTime);
+}
+
+XMLscene.prototype.resetgraph = function() {
+
 }
