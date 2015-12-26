@@ -108,7 +108,7 @@ Board.prototype.getCoords = function(pos) {
 
 Board.prototype.movePiece = function(difference) {
     
-    console.log(difference);
+    //console.log(difference);
     var anim=new ComplexAnimation();
 
     var piece = this.logicBoard[difference["move"]["old"][1] * this.size + difference["move"]["old"][0]];

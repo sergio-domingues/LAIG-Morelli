@@ -4,7 +4,7 @@
  */
 function XMLscene() {
     CGFscene.call(this);
-        
+    
     this.currentAnimation = 0;
 }
 
@@ -48,6 +48,7 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
     
+    this.crown = new MyCrown(this);
     
     this.borda = new CGFtexture(this,"resources/borda.png");
     
@@ -231,13 +232,20 @@ XMLscene.prototype.display = function() {
     {
         this.multMatrix(this.initialTransformation);
         
-        
         this.updateLights();
+         this.crown.display();
         this.pushMatrix()
         this.translate(6.7, 1.05, 6.6);
-        this.scale(0.15, 0.15, 0.15)
+        this.scale(0.15, 0.15, 0.15);
         this.morreli.display();
-        this.popMatrix()
+        
+        //this.translate(6, 1.5, 6);
+       
+        
+        this.popMatrix();
+        
+        
+        
         
         this.getObjects(this.graph_tree.root_id);
     }
@@ -360,6 +368,6 @@ XMLscene.prototype.update = function(currTime) {
     this.morreli.updateTime(currTime);
 }
 
-XMLscene.prototype.resetgraph = function(){
-    
+XMLscene.prototype.resetgraph = function() {
+
 }
