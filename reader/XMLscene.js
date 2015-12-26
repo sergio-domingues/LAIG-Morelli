@@ -124,7 +124,7 @@ XMLscene.prototype.init = function(application) {
     
     this.setPickEnabled(true);
 
-    this.x = new String3D(this,"FRASE");
+    this.x = new String3D(this,"VOU BAZAR TE LOGO");
 }
 ;
 
