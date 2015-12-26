@@ -4,10 +4,7 @@
  */
 function XMLscene() {
     CGFscene.call(this);
-    
-    //cria arvore (grafo) que aramazena nodes/leafs
-    this.graph_tree = new GraphTree();
-    
+        
     this.currentAnimation = 0;
 }
 
@@ -361,4 +358,8 @@ XMLscene.prototype.update = function(currTime) {
     }
     
     this.morreli.updateTime(currTime);
+}
+
+XMLscene.prototype.resetgraph = function(){
+    
 }

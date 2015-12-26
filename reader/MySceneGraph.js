@@ -5,12 +5,25 @@
  * @param {object} scene
  */
 function MySceneGraph(filename, scene) {
-    this.loadedOk = null ;
-    
+
     // Establish bidirectional references between scene and graph
     this.scene = scene;
     scene.graph = this;
+
+    this.loadedOk = null ;
+    this.scene.initialTransformation=[];
+    this.scene.frustum={};
+    this.scene.axis_length=2;
+    this.scene.ambient = {};
+    this.scene.background={};
+    this.scene.lights_map={};
+    this.scene.textures={};
+    this.scene.materials={};
+    this.scene.animations=[];
     
+    //cria arvore (grafo) que aramazena nodes/leafs
+    this.scene.graph_tree = new GraphTree();
+  
     // File reading 
     this.reader = new CGFXMLreader();
     /*
