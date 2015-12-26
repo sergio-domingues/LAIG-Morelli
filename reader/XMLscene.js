@@ -122,7 +122,7 @@ XMLscene.prototype.init = function(application) {
     
     this.setPickEnabled(true);
 
-
+    this.x = new String3D(this,"VOU BAZAR TE LOGO");
 }
 ;
 
@@ -215,6 +215,7 @@ XMLscene.prototype.display = function() {
     this.updateProjectionMatrix();
     this.loadIdentity();
     
+  
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
     
@@ -228,10 +229,17 @@ XMLscene.prototype.display = function() {
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
     
+	
+
     if (this.graph.loadedOk === true) 
-    {
+    {        
+        this.pushMatrix();
+        //this.rotate(Math.PI/4,0,1,0);
+        this.translate(6,1,4); 
+        this.x.display();
+        this.popMatrix();
+
         this.multMatrix(this.initialTransformation);
-        
         this.updateLights();
         this.crown.display();
         this.pushMatrix()
