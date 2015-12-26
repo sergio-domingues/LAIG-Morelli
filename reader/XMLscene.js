@@ -48,7 +48,8 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
     
-    this.crown = new MyCrown(this);
+    this.moura = new String3D(this,"MOURA");
+    
     
     this.borda = new CGFtexture(this,"resources/borda.png");
     
@@ -121,7 +122,7 @@ XMLscene.prototype.init = function(application) {
     this.setUpdatePeriod(40);
     
     this.setPickEnabled(true);
-
+    
     this.x = new String3D(this,"VOU BAZAR TE LOGO");
 }
 ;
@@ -215,7 +216,12 @@ XMLscene.prototype.display = function() {
     this.updateProjectionMatrix();
     this.loadIdentity();
     
-  
+    
+    this.pushMatrix();
+		this.translate(-1,1.5,-10);
+		this.moura.display();
+	this.popMatrix();
+    
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
     
@@ -229,26 +235,21 @@ XMLscene.prototype.display = function() {
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
     
-	
-
+    
+    
     if (this.graph.loadedOk === true) 
-    {        
-        this.pushMatrix();
-        //this.rotate(Math.PI/4,0,1,0);
-        this.translate(6,1,4); 
-        this.x.display();
-        this.popMatrix();
-
+    {
+        
+        
         this.multMatrix(this.initialTransformation);
         this.updateLights();
-        this.crown.display();
         this.pushMatrix()
         this.translate(6.7, 1.05, 6.6);
         this.scale(0.15, 0.15, 0.15);
         this.morreli.display();
         
         //this.translate(6, 1.5, 6);
-       
+        
         
         this.popMatrix();
         

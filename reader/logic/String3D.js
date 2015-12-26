@@ -10,7 +10,7 @@ function String3D(scene, string) {
     this.init();
 }
 
-String3D.prototype.constructor = MyPiece;
+String3D.prototype.constructor = String3D;
 
 String3D.prototype.init = function() {
     

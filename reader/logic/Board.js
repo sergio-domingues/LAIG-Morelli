@@ -69,8 +69,8 @@ Board.prototype.initTab = function(data) {
             }
         }
     }
-    this.logicBoard[1].animation = new CrownAnimation(this.scene,[1, 0]);
-    this.animations.push(this.logicBoard[1].animation);
+    //this.logicBoard[1].animation = new CrownAnimation(this.scene,[1, 0]);
+    //this.animations.push(this.logicBoard[1].animation);
 }
 
 Board.prototype.highlightPath = function(array) {
