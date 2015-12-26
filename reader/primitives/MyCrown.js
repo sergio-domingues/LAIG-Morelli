@@ -55,8 +55,8 @@ MyCrown.prototype.display =function(){
 
 
     this.scene.pushMatrix();
-    this.scene.translate(0,0,-0.5);
-    this.scene.scale(0.9,0.9,0.9);
+    this.scene.translate(0,0,-0.4);
+    this.scene.scale(0.8,0.8,0.8);
  		
  		this.scene.pushMatrix(); 			
 			this.partin.display();
