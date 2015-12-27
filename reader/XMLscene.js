@@ -215,13 +215,10 @@ XMLscene.prototype.display = function() {
     // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
-    
-    
-    this.pushMatrix();
-		this.translate(-1,1.5,-10);
-		this.moura.display();
-	this.popMatrix();
-    
+
+            
+    this.morreli.displayHUD();
+
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
     
@@ -247,14 +244,9 @@ XMLscene.prototype.display = function() {
         this.translate(6.7, 1.05, 6.6);
         this.scale(0.15, 0.15, 0.15);
         this.morreli.display();
-        
-        //this.translate(6, 1.5, 6);
-        
-        
         this.popMatrix();
         
-        
-        
+
         
         this.getObjects(this.graph_tree.root_id);
     }
@@ -375,8 +367,4 @@ XMLscene.prototype.update = function(currTime) {
     }
     
     this.morreli.updateTime(currTime);
-}
-
-XMLscene.prototype.resetgraph = function() {
-
 }

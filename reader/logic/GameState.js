@@ -13,9 +13,21 @@ function Morreli(scene, size, gamemode) {
     }
     this.connection = new Connection();
     this.lastLastTick = Date.now();
-    this.init();
+    
     this.history = new History();
     this.anim;
+
+    this.whiteLabel = new String3D(this.scene,"WHITE");
+    this.blackLabel = new String3D(this.scene,"BLACK");
+    this.init();
+
+    this.counter={black:0,white:0}
+
+    this.white=new String3D(this.scene,"White: "+this.counter.white)
+    this.black=new String3D(this.scene,"Black: "+this.counter.black)
+    this.timeLeft=new String3D(this.scene,"Time Left:"+this.stateTime/1000);
+
+
 
 }
 
@@ -28,7 +40,20 @@ Morreli.prototype.init = function() {
 }
 
 Morreli.prototype.display = function() {
+    this.scene.pushMatrix();
+    this.scene.rotate(-Math.PI/2,1,0,0)
+    this.scene.rotate(Math.PI,0,0,1)
+    this.scene.translate(-8,-3,-0.2)
+    this.whiteLabel.display();
+    this.scene.popMatrix();
+    
     this.board.display();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(-Math.PI/2,1,0,0)
+    this.scene.translate(3,-15,-0.2)
+    this.blackLabel.display();
+    this.scene.popMatrix();
 }
 
 Morreli.prototype.updateClick = function(id, piece) {
@@ -148,6 +173,7 @@ Morreli.prototype.movePiece = function(xf, yf) {
         self.currentState = "ANIM";
         self.stateTimeMax = 2;
         self.history.push(board);
+        self.countPieces(board);
         self.checkEndGame();
     });
 
@@ -176,6 +202,7 @@ Morreli.prototype.botRandom = function() {
         self.currentState = "ANIM";
         self.stateTimeMax = 2;
         self.history.push(board);
+        self.countPieces(board);
         self.checkEndGame();
     });
 }
@@ -188,6 +215,7 @@ Morreli.prototype.botSmart = function() {
         self.currentState = "ANIM";
         self.stateTimeMax = 2;
         self.history.push(board);
+        self.countPieces(board);
         self.checkEndGame();
     });
 }
@@ -201,4 +229,27 @@ Morreli.prototype.getCoords = function(pos) {
         "y": y
     
     }
+}
+
+Morreli.prototype.countPieces = function(board){
+    for(var y =0;y<this.size;y++){
+        for(var x=0;x<this.size;x++){
+            if(board[y][x]==0){
+                this.counter.black++;
+            }else if(board[y][x]==1){
+                this.counter.white++;
+            }
+        }
+    }
+}
+
+Morreli.prototype.displayHUD = function(){
+
+    //this.scene.pushMatrix();
+    this.white.display();
+    //this.scene.translate(0,1,0);
+    this.black.display();
+    //this.scene.translate(0,1,0);
+    this.timeLeft.display();
+    //this.scene.popMatrix();
 }
