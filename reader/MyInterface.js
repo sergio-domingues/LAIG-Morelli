@@ -36,6 +36,7 @@ MyInterface.prototype.init = function(application) {
     var gameFolder = this.gui.addFolder('Game');
     
     gameFolder.add(this.scene.morreli, "undo");
+    gameFolder.add(this.scene.morreli, "movie");
     
     var selectedScene = gameFolder.add(this, 'selectedScene', this.scenesNames);
     

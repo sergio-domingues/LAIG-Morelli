@@ -16,19 +16,19 @@ function Morreli(scene, size, gamemode) {
     
     this.history = new History();
     this.anim;
-
+    
     this.whiteLabel = new String3D(this.scene,"WHITE");
     this.blackLabel = new String3D(this.scene,"BLACK");
     this.init();
-
-    this.counter={black:0,white:0}
-
-    this.white=new String3D(this.scene,"White: "+this.counter.white)
-    this.black=new String3D(this.scene,"Black: "+this.counter.black)
-    this.timeLeft=new String3D(this.scene,"Time Left:"+this.stateTime/1000);
-
-
-
+    
+    this.counter = {
+        black: 0,
+        white: 0
+    }
+    
+    this.white = new String3D(this.scene,"White: " + this.counter.white)
+    this.black = new String3D(this.scene,"Black: " + this.counter.black)
+    this.timeLeft = new String3D(this.scene,"Time Left:" + this.stateTime / 1000);
 }
 
 Morreli.prototype.init = function() {
@@ -41,17 +41,17 @@ Morreli.prototype.init = function() {
 
 Morreli.prototype.display = function() {
     this.scene.pushMatrix();
-    this.scene.rotate(-Math.PI/2,1,0,0)
-    this.scene.rotate(Math.PI,0,0,1)
-    this.scene.translate(-8,-3,-0.2)
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+    this.scene.rotate(Math.PI, 0, 0, 1)
+    this.scene.translate(-8, -3, -0.2)
     this.whiteLabel.display();
     this.scene.popMatrix();
     
     this.board.display();
-
+    
     this.scene.pushMatrix();
-    this.scene.rotate(-Math.PI/2,1,0,0)
-    this.scene.translate(3,-15,-0.2)
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+    this.scene.translate(3, -15, -0.2)
     this.blackLabel.display();
     this.scene.popMatrix();
 }
@@ -137,13 +137,13 @@ Morreli.prototype.updateTime = function(currTime) {
         } else 
         if (this.mode[this.player] == "bot1" || this.mode[this.player] == "bot2") {
             this.currentState = "BOT";
-        } else if(this.mode[0] != "human" && this.mode[1]!="human"){
+        } else if (this.mode[0] != "human" && this.mode[1] != "human") {
             this.currentState = "CHANGEPLAYER";
             this.anim = new CameraAnimation(this.scene);
-        }else{
-            this.currentState="INIT";
+        } else {
+            this.currentState = "INIT";
         }
-    }   
+    }
     this.lastLastTick = currTime;
 
 }
@@ -155,6 +155,21 @@ Morreli.prototype.undo = function() {
             this.board.movePiece(changes)
     }
 }
+
+Morreli.prototype.movie = function() {
+    
+    //tabuleiro volta ao estado inicial
+    this.board.initTab(this.history.get(0));
+    
+    for (var i = 0; i < this.history.length() - 1; i++) {      
+        var tabOld = this.history.get(i);
+        var tabNew = this.history.get(i + 1);   
+             
+        var diff = this.history.difference(tabOld, tabNew);
+        this.board.movePiece(diff);
+    }
+}
+
 
 Morreli.prototype.getValidMoves = function(selected) {
     var self = this;
@@ -231,20 +246,20 @@ Morreli.prototype.getCoords = function(pos) {
     }
 }
 
-Morreli.prototype.countPieces = function(board){
-    for(var y =0;y<this.size;y++){
-        for(var x=0;x<this.size;x++){
-            if(board[y][x]==0){
+Morreli.prototype.countPieces = function(board) {
+    for (var y = 0; y < this.size; y++) {
+        for (var x = 0; x < this.size; x++) {
+            if (board[y][x] == 0) {
                 this.counter.black++;
-            }else if(board[y][x]==1){
+            } else if (board[y][x] == 1) {
                 this.counter.white++;
             }
         }
     }
 }
 
-Morreli.prototype.displayHUD = function(){
-
+Morreli.prototype.displayHUD = function() {
+    
     //this.scene.pushMatrix();
     this.white.display();
     //this.scene.translate(0,1,0);
