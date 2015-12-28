@@ -5,9 +5,6 @@
 function XMLscene() {
     CGFscene.call(this);
     
-    //cria arvore (grafo) que aramazena nodes/leafs
-    this.graph_tree = new GraphTree();
-    
     this.currentAnimation = 0;
 }
 
@@ -51,6 +48,8 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
     
+    this.moura = new String3D(this,"MOURA");
+    
     
     this.borda = new CGFtexture(this,"resources/borda.png");
     
@@ -62,7 +61,7 @@ XMLscene.prototype.init = function(application) {
     
     this.bordaBlue = new CGFtexture(this,"resources/bordaSelected.png");
     
-    this.morreli = new Morreli(this,13,["human", "bot1"]);
+    this.morreli = new Morreli(this,13,["human", "human"]);
     
     this.yellow = new CGFappearance(this);
     this.yellow.setAmbient(1, 1, 0, 1);
@@ -123,7 +122,7 @@ XMLscene.prototype.init = function(application) {
     this.setUpdatePeriod(40);
     
     this.setPickEnabled(true);
-
+    
     this.x = new String3D(this,"VOU BAZAR TE LOGO");
 }
 ;
@@ -216,8 +215,10 @@ XMLscene.prototype.display = function() {
     // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
-    
-  
+
+            
+    this.morreli.displayHUD();
+
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
     
@@ -231,24 +232,21 @@ XMLscene.prototype.display = function() {
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
     
-	
-
+    
+    
     if (this.graph.loadedOk === true) 
-    {        
-        this.pushMatrix();
-        //this.rotate(Math.PI/4,0,1,0);
-        this.translate(6,1,4); 
-        this.x.display();
-        this.popMatrix();
-
+    {
+        
+        
         this.multMatrix(this.initialTransformation);
-                
         this.updateLights();
         this.pushMatrix()
         this.translate(6.7, 1.05, 6.6);
-        this.scale(0.15, 0.15, 0.15)
+        this.scale(0.15, 0.15, 0.15);
         this.morreli.display();
-        this.popMatrix()
+        this.popMatrix();
+        
+
         
         this.getObjects(this.graph_tree.root_id);
     }

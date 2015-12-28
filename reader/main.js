@@ -11,13 +11,13 @@ function getUrlVars() {
     return vars;
 }	 
 
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'assocMap.js','primitives/Plane.js','primitives/MyTriangle.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'assocMap.js','primitives/MyTriangle.js',
 				'primitives/MyRectangle.js','primitives/MyCylinderSurface.js', 'primitives/MyCircle.js', 'primitives/MyPiece.js',
 				'primitives/MySphere.js', 'GraphTree.js','GraphTree_node.js','GraphTree_leaf.js','MyTexture.js',
 				'MyInterface.js','primitives/MyPlane.js','primitives/MyPatch.js','primitives/MyTerrain.js','primitives/MyVehicle.js','logic/History.js',
-                'animations/Animation.js','animations/LinearAnimation.js','animations/CircularAnimation.js', 'animations/ComposedAnimation.js',
-                'primitives/MyTile.js','logic/Board.js','logic/Cell.js','logic/Connection.js','logic/Piece.js','logic/GameState.js','logic/String3D.js','animations/MovePieceAnimation.js',
-                'animations/CapturePieceAnimation.js','animations/ComplexAnimation.js','primitives/MyBoat.js','animations/CameraAnimation.js', 
+                'animations/Animation.js','animations/LinearAnimation.js','animations/CircularAnimation.js', 'animations/ComposedAnimation.js','logic/String3D.js',
+                'primitives/MyTile.js','logic/Board.js','logic/Cell.js','logic/Connection.js','logic/Piece.js','logic/GameState.js','animations/MovePieceAnimation.js',
+                'animations/CapturePieceAnimation.js','animations/ComplexAnimation.js','primitives/MyBoat.js','animations/CameraAnimation.js','primitives/MyCrown.js','animations/CrownAnimation.js',
 
 
 main=function()
@@ -41,7 +41,9 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-	var filename=getUrlVars()['file'] || "cenaAlternativa3.lsx";
+
+	var filename=getUrlVars()['file'] || "testScene.lsx";
+
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors	
