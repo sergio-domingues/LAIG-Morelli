@@ -216,8 +216,10 @@ XMLscene.prototype.display = function() {
     this.updateProjectionMatrix();
     this.loadIdentity();
 
-            
-    this.morreli.displayHUD();
+    this.pushMatrix();        
+        this.translate(-1,1.5,-10);
+		this.morreli.displayHUD();
+    this.popMatrix();
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();

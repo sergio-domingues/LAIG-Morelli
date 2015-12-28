@@ -2,7 +2,7 @@ function Morreli(scene, size, gamemode) {
     this.player = 0;
     this.scene = scene;
     this.stateTimeMax = 0;
-    this.stateTime = 0;
+    this.stateTime = 15000;
     this.size = size;
     this.board = new Board(scene,size);
     this.mode = gamemode;
@@ -16,16 +16,19 @@ function Morreli(scene, size, gamemode) {
     
     this.history = new History();
     this.anim;
-
+    
     this.whiteLabel = new String3D(this.scene,"WHITE");
     this.blackLabel = new String3D(this.scene,"BLACK");
     this.init();
-
-    this.counter={black:0,white:0}
-
-    this.white=new String3D(this.scene,"White: "+this.counter.white)
-    this.black=new String3D(this.scene,"Black: "+this.counter.black)
-    this.timeLeft=new String3D(this.scene,"Time Left:"+this.stateTime/1000);
+    
+    this.counter = {
+        black: 0,
+        white: 0
+    }
+    
+    this.white = new String3D(this.scene,"WHITE     " + this.counter.white)
+    this.black = new String3D(this.scene,"BLACK     " + this.counter.black)
+    this.timeLeft = new String3D(this.scene,"TIME LEFT " + this.stateTime / 1000);
 
 
 
@@ -36,22 +39,23 @@ Morreli.prototype.init = function() {
     this.connection.initTabuleiro(this.size, function(board) {
         self.history.push(board);
         self.board.initTab(board);
+        self.countPieces(board);
     });
 }
 
 Morreli.prototype.display = function() {
     this.scene.pushMatrix();
-    this.scene.rotate(-Math.PI/2,1,0,0)
-    this.scene.rotate(Math.PI,0,0,1)
-    this.scene.translate(-8,-3,-0.2)
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+    this.scene.rotate(Math.PI, 0, 0, 1)
+    this.scene.translate(-8, -3, -0.2)
     this.whiteLabel.display();
     this.scene.popMatrix();
     
     this.board.display();
-
+    
     this.scene.pushMatrix();
-    this.scene.rotate(-Math.PI/2,1,0,0)
-    this.scene.translate(3,-15,-0.2)
+    this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+    this.scene.translate(3, -15, -0.2)
     this.blackLabel.display();
     this.scene.popMatrix();
 }
@@ -67,6 +71,8 @@ Morreli.prototype.updateClick = function(id, piece) {
         }
     }//Peca selecionada e carrega novamente numa peca
      
+    
+    
     
     
     else if (this.currentState == "PIECESELECT" && id > 200) {
@@ -112,7 +118,16 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 
 Morreli.prototype.updateTime = function(currTime) {
-    this.stateTime += currTime - this.lastLastTick;
+    if (this.stateTime > 0) {
+        this.stateTime -= currTime - this.lastLastTick;
+    } else {
+        //console.log("TIME OUT");
+        this.currentState = "GAMEOVER";
+    }
+    
+    this.timeLeft.string = (this.scene,
+    "TIME LEFT " + Math.floor(this.stateTime / 1000));
+    
     
     
     for (var i = 0; i < this.board.animations.length; i++) {
@@ -127,8 +142,8 @@ Morreli.prototype.updateTime = function(currTime) {
         if (this.anim && !this.anim.done) {
             this.anim.display();
         } else if (this.anim.done) {
-            
             this.currentState = "INIT";
+            this.stateTime = 15000;
         }
     }
     if (this.currentState == "ANIM") {
@@ -137,13 +152,14 @@ Morreli.prototype.updateTime = function(currTime) {
         } else 
         if (this.mode[this.player] == "bot1" || this.mode[this.player] == "bot2") {
             this.currentState = "BOT";
-        } else if(this.mode[0] != "human" && this.mode[1]!="human"){
+        } else if (this.mode[0] == "human" && this.mode[1] == "human") {
             this.currentState = "CHANGEPLAYER";
             this.anim = new CameraAnimation(this.scene);
-        }else{
-            this.currentState="INIT";
+        } else {
+            this.currentState = "INIT";
+            this.stateTime = 15000;
         }
-    }   
+    }
     this.lastLastTick = currTime;
 
 }
@@ -231,25 +247,31 @@ Morreli.prototype.getCoords = function(pos) {
     }
 }
 
-Morreli.prototype.countPieces = function(board){
-    for(var y =0;y<this.size;y++){
-        for(var x=0;x<this.size;x++){
-            if(board[y][x]==0){
+Morreli.prototype.countPieces = function(board) {
+    this.counter.white = 0;
+    this.counter.black = 0;
+    for (var y = 0; y < this.size; y++) {
+        for (var x = 0; x < this.size; x++) {
+            if (board[y][x] == 0) {
                 this.counter.black++;
-            }else if(board[y][x]==1){
+            } else if (board[y][x] == 1) {
                 this.counter.white++;
             }
         }
     }
+    this.white.string = ("WHITE     " + this.counter.white);
+    this.black.string = (this.scene,
+    "BLACK     " + this.counter.black)
 }
 
-Morreli.prototype.displayHUD = function(){
-
-    //this.scene.pushMatrix();
+Morreli.prototype.displayHUD = function() {
+    
+    this.scene.translate(2.3, 0.8, 0)
+    this.scene.scale(0.2, 0.2, 0.2)
+    
     this.white.display();
-    //this.scene.translate(0,1,0);
+    this.scene.translate(0, -1, 0);
     this.black.display();
-    //this.scene.translate(0,1,0);
+    this.scene.translate(0, -1, 0);
     this.timeLeft.display();
-    //this.scene.popMatrix();
 }
