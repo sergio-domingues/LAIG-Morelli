@@ -17,6 +17,12 @@ function MovePieceAnimation(scene,posInitial,posFinal) {
     this.xi=posInitial[0];
     this.yi=posInitial[1];
     this.state="UP";
+
+    this.distance=Math.sqrt(Math.pow(this.xf-this.xi,2)+Math.pow(this.yf-this.yi,2));
+
+    if(this.distance>7){
+        this.distance=7;
+    }
     
 }
 
@@ -56,7 +62,7 @@ MovePieceAnimation.prototype.getMatrix = function() {
     else if(this.state=="MOVE"){
         var timeToState=(3*this.span/4)*1000;
         x=this.xi+(this.xf-this.xi)*(this.frameTime/timeToState);
-        y+=1.5*Math.sin(Math.PI*this.frameTime/timeToState)+1;
+        y+=this.distance*Math.sin(Math.PI*this.frameTime/timeToState)+1;
         z=this.yi+(this.yf-this.yi)*(this.frameTime/timeToState);
         
         if(this.frameTime>timeToState){
