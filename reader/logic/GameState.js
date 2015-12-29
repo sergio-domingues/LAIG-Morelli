@@ -119,20 +119,20 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 Morreli.prototype.updateTime = function(currTime) {
     if (this.stateTime > 0) {
-        this.stateTime -= currTime - this.lastLastTick;
+        //this.stateTime -= currTime - this.lastLastTick;
     } else {
-        //console.log("TIME OUT");
         this.currentState = "GAMEOVER";
     }
     
-    this.timeLeft.string = (this.scene,
-    "TIME LEFT " + Math.floor(this.stateTime / 1000));
+    //this.timeLeft.string = (this.scene,
+    //"TIME LEFT " + Math.floor(this.stateTime / 1000));
     
     
     
     for (var i = 0; i < this.board.animations.length; i++) {
         this.board.animations[i].addTime(currTime);
     }
+    
     if (this.anim) {
         this.anim.addTime(currTime);
     }
@@ -143,7 +143,7 @@ Morreli.prototype.updateTime = function(currTime) {
             this.anim.display();
         } else if (this.anim.done) {
             this.currentState = "INIT";
-            this.stateTime = 15000;
+            this.stateTime = 25000;
         }
     }
     if (this.currentState == "ANIM") {

@@ -25,15 +25,18 @@ MyInterface.prototype.init = function(application) {
     this.gui = new dat.GUI();
     this.scene = application.scene;
     this.scenesNames = ["testScene.lsx", "triangulo.lsx"];
+    this.gamemode = ["human", "bot1", "bot2"];
     this.selectedScene = 0;
+    this.whitePlayer = "human";
+    this.blackPlayer = "human";
     this.lightsFolder = this.gui.addFolder('Luzes');
-    this.lightsFolder.open();
-    
+    this.size = 11;
     var interface = this;
- 
+    
     //botao undo
     
     var gameFolder = this.gui.addFolder('Game');
+    gameFolder.open();
     
     gameFolder.add(this.scene.morreli, "undo");
     
@@ -43,6 +46,14 @@ MyInterface.prototype.init = function(application) {
         new MySceneGraph(event,interface.scene);
     });
     
+    
+    
+    gameFolder.add(this, "whitePlayer", this.gamemode);
+    gameFolder.add(this, "blackPlayer", this.gamemode);
+    gameFolder.add(this, "size", 7, 13).step(1);
+    
+    gameFolder.add(this.scene, "start");
+    
     return true;
 }
 ;
@@ -51,7 +62,7 @@ MyInterface.prototype.init = function(application) {
  * update
  */
 MyInterface.prototype.updateInterface = function() {
-        
+    
     var interface = this;
     
     //actualiza as luzes na interface

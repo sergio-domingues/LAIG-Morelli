@@ -48,9 +48,6 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
     
-    this.moura = new String3D(this,"MOURA");
-    
-    
     this.borda = new CGFtexture(this,"resources/borda.png");
     
     this.amarelo = new CGFappearance(this);
@@ -369,4 +366,14 @@ XMLscene.prototype.update = function(currTime) {
     }
     
     this.morreli.updateTime(currTime);
+}
+
+
+XMLscene.prototype.start = function(){
+
+    if(this.interface.size%2==0){
+        this.interface.size++;
+    }
+    
+    this.morreli=new Morreli(this,this.interface.size,[this.interface.blackPlayer,this.interface.whitePlayer]);
 }
