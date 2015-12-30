@@ -88,7 +88,7 @@ History.prototype.difference = function(tabOld,tabNew) {
                     oldPos[0] = j;
                     oldPos[1] = i;
                 } else if (tabOld[i][j] == (1 - tabNew[i][j])) {
-                    capture.push([j, i]); 
+                    capture.push(j, i); 
                 }
             }
         }

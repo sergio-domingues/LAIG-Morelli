@@ -17,6 +17,8 @@ function Morreli(scene, size, gamemode) {
     this.history = new History();
     this.anim;
     
+    this.movieIter = -1;
+    
     this.whiteLabel = new String3D(this.scene,"WHITE");
     this.blackLabel = new String3D(this.scene,"BLACK");
     this.init();
@@ -69,6 +71,7 @@ Morreli.prototype.updateClick = function(id, piece) {
      
     
     
+    
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
         if (piece.player == this.player) {
@@ -114,14 +117,40 @@ Morreli.prototype.updateClick = function(id, piece) {
 Morreli.prototype.updateTime = function(currTime) {
     this.stateTime += currTime - this.lastLastTick;
     
-    
-    for (var i = 0; i < this.board.animations.length; i++) {
-        this.board.animations[i].addTime(currTime);
+    //vai eliminando animacoes que ja terminaram
+    if (this.currentState == "MOVIE" && this.movieIter != -1) {
+        if (this.board.animations.length == 0) {
+            this.movieIter++;
+            //terminou animacao, procura seguinte
+            this.movieIteration(this.movieIter);
+        }
+        
+        for (var i = 0; i < this.board.animations.length; i++) {
+            if (this.board.animations[i] instanceof ComplexAnimation) {
+                if (this.board.animations[i].isDone()) {
+                    this.board.animations.splice(i, 1);
+                    i--;
+                }
+            }
+        }
     }
+    
+    if (this.currentState == "MOVIE" && this.movieIter != -1) {
+        if (this.board.animations.length > 0) {
+            if (!this.board.animations[0].isActive()) {
+                this.board.animations[0].setActive();
+            }
+            this.board.animations[0].addTime(currTime);
+        }
+    } else {
+        for (var i = 0; i < this.board.animations.length; i++) {
+            this.board.animations[i].addTime(currTime);
+        }
+    }
+    
     if (this.anim) {
         this.anim.addTime(currTime);
     }
-    
     
     if (this.currentState == "CHANGEPLAYER") {
         if (this.anim && !this.anim.done) {
@@ -145,7 +174,6 @@ Morreli.prototype.updateTime = function(currTime) {
         }
     }
     this.lastLastTick = currTime;
-
 }
 
 Morreli.prototype.undo = function() {
@@ -157,17 +185,38 @@ Morreli.prototype.undo = function() {
 }
 
 Morreli.prototype.movie = function() {
-    
     //tabuleiro volta ao estado inicial
+    this.board = new Board(this.scene,this.size);
     this.board.initTab(this.history.get(0));
+    this.currentState = "MOVIE";
     
-    for (var i = 0; i < this.history.length() - 1; i++) {      
+    this.movieIter = 0;
+ 
+    this.movieIteration(this.movieIter);
+}
+
+Morreli.prototype.movieIteration = function(iter) {
+    
+    if (iter >= this.history.length() - 1) {
+        this.movieIter = -1;
+        return;
+    }
+    
+    var tabOld = this.history.get(iter);
+    var tabNew = this.history.get(iter + 1);
+    
+    var diff = this.history.difference(tabOld, tabNew);
+    this.board.movePiece(diff);
+    
+    /* for (var i = 0; i < this.history.length() - 1; i++) {        
         var tabOld = this.history.get(i);
-        var tabNew = this.history.get(i + 1);   
-             
+        var tabNew = this.history.get(i + 1);
+        
         var diff = this.history.difference(tabOld, tabNew);
         this.board.movePiece(diff);
-    }
+        //this.stateTimeMax = 2;
+    }*/
+
 }
 
 
