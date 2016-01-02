@@ -30,6 +30,7 @@ MyInterface.prototype.init = function(application) {
     this.whitePlayer = "human";
     this.blackPlayer = "human";
     this.lightsFolder = {};
+    this.movieButton;
     this.size = 13;
     this.lights=[];
     var interface = this;

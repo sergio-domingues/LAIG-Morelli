@@ -71,6 +71,8 @@ Morreli.prototype.updateClick = function(id, piece) {
         }
     }//Peca selecionada e carrega novamente numa peca
      
+    
+    
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
         if (piece.player == this.player) {
@@ -115,10 +117,12 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 Morreli.prototype.updateTime = function(currTime) {
     if (this.stateTime > 0) {
-    //this.stateTime -= currTime - this.lastLastTick;
+        this.stateTime -= currTime - this.lastLastTick;
     } else {
         this.currentState = "GAMEOVER";
-        this.scene.interface.gameFolder.add(this, "movie");
+        if (!this.scene.interface.movieButton) {
+            this.scene.interface.movieButton = this.scene.interface.gameFolder.add(this, "movie");
+        }
     }
     
     this.timeLeft.string = (this.scene,
@@ -254,8 +258,7 @@ Morreli.prototype.checkEndGame = function() {
         console.log(data);
         if (data) {
             self.currentState = "GAMEOVER";
-            self.scene.interface.gameFolder.add(this, "movie");
-    
+            this.scene.interface.movieButton = this.scene.interface.gameFolder.add(this, "movie");
         } 
         else {
             self.player = (1 - self.player);
@@ -329,3 +332,27 @@ Morreli.prototype.displayHUD = function() {
     this.scene.translate(0, -1, 0);
     this.timeLeft.display();
 }
+
+
+Morreli.prototype.alertWinner=function(){
+    var middle = Math.floor(this.size / 2) * this.size + Math.floor(this.size / 2);
+
+    var player=this.board[middle];
+    var playerString;
+
+    switch(player){
+        case 1:
+            alert("CONGRATS!!!\n WHITE PLAYER WON :D")
+        break;
+
+        case 0:
+            alert("CONGRATS!!!\n BLACK PLAYER WON :D")
+        break;
+
+        case -1:
+            alert("CONGRATS!!!\n BLACK PLAYER WON")
+        break;
+    }
+
+
+    }
