@@ -48,9 +48,6 @@ XMLscene.prototype.init = function(application) {
     
     this.interface = {};
     
-    this.moura = new String3D(this,"MOURA");
-    
-    
     this.borda = new CGFtexture(this,"resources/borda.png");
     
     this.amarelo = new CGFappearance(this);
@@ -216,8 +213,10 @@ XMLscene.prototype.display = function() {
     this.updateProjectionMatrix();
     this.loadIdentity();
 
-            
-    this.morreli.displayHUD();
+    this.pushMatrix();        
+        this.translate(-1,1.5,-10);
+		this.morreli.displayHUD();
+    this.popMatrix();
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
@@ -367,4 +366,14 @@ XMLscene.prototype.update = function(currTime) {
     }
     
     this.morreli.updateTime(currTime);
+}
+
+
+XMLscene.prototype.start = function(){
+
+    if(this.interface.size%2==0){
+        this.interface.size++;
+    }
+    
+    this.morreli=new Morreli(this,this.interface.size,[this.interface.blackPlayer,this.interface.whitePlayer]);
 }

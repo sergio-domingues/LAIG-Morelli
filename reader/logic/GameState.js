@@ -2,7 +2,7 @@ function Morreli(scene, size, gamemode) {
     this.player = 0;
     this.scene = scene;
     this.stateTimeMax = 0;
-    this.stateTime = 0;
+    this.stateTime = 15000;
     this.size = size;
     this.board = new Board(scene,size);
     this.mode = gamemode;
@@ -18,7 +18,6 @@ function Morreli(scene, size, gamemode) {
     this.anim;
     
     this.movieIter = -1;
-    
     this.whiteLabel = new String3D(this.scene,"WHITE");
     this.blackLabel = new String3D(this.scene,"BLACK");
     this.init();
@@ -28,9 +27,9 @@ function Morreli(scene, size, gamemode) {
         white: 0
     }
     
-    this.white = new String3D(this.scene,"White: " + this.counter.white)
-    this.black = new String3D(this.scene,"Black: " + this.counter.black)
-    this.timeLeft = new String3D(this.scene,"Time Left:" + this.stateTime / 1000);
+    this.white = new String3D(this.scene,"WHITE: " + this.counter.white)
+    this.black = new String3D(this.scene,"BLACK: " + this.counter.black)
+    this.timeLeft = new String3D(this.scene,"TIME LEFT:" + this.stateTime / 1000);
 }
 
 Morreli.prototype.init = function() {
@@ -38,6 +37,7 @@ Morreli.prototype.init = function() {
     this.connection.initTabuleiro(this.size, function(board) {
         self.history.push(board);
         self.board.initTab(board);
+        self.countPieces(board);
     });
 }
 
@@ -68,10 +68,6 @@ Morreli.prototype.updateClick = function(id, piece) {
             this.currentState = "PIECESELECT";
         }
     }//Peca selecionada e carrega novamente numa peca
-     
-    
-    
-    
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
         if (piece.player == this.player) {
@@ -115,7 +111,15 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 
 Morreli.prototype.updateTime = function(currTime) {
-    this.stateTime += currTime - this.lastLastTick;
+    if (this.stateTime > 0) {
+        //this.stateTime -= currTime - this.lastLastTick;
+    } else {
+        this.currentState = "GAMEOVER";
+    }
+    
+    //this.timeLeft.string = (this.scene,
+    //"TIME LEFT " + Math.floor(this.stateTime / 1000));
+    
     
     //vai eliminando animacoes que ja terminaram
     if (this.currentState == "MOVIE" && this.movieIter != -1) {
@@ -156,8 +160,8 @@ Morreli.prototype.updateTime = function(currTime) {
         if (this.anim && !this.anim.done) {
             this.anim.display();
         } else if (this.anim.done) {
-            
             this.currentState = "INIT";
+            this.stateTime = 25000;
         }
     }
     if (this.currentState == "ANIM") {
@@ -166,11 +170,12 @@ Morreli.prototype.updateTime = function(currTime) {
         } else 
         if (this.mode[this.player] == "bot1" || this.mode[this.player] == "bot2") {
             this.currentState = "BOT";
-        } else if (this.mode[0] != "human" && this.mode[1] != "human") {
+        } else if (this.mode[0] == "human" && this.mode[1] == "human") {
             this.currentState = "CHANGEPLAYER";
             this.anim = new CameraAnimation(this.scene);
         } else {
             this.currentState = "INIT";
+            this.stateTime = 15000;
         }
     }
     this.lastLastTick = currTime;
@@ -296,6 +301,8 @@ Morreli.prototype.getCoords = function(pos) {
 }
 
 Morreli.prototype.countPieces = function(board) {
+    this.counter.white = 0;
+    this.counter.black = 0;
     for (var y = 0; y < this.size; y++) {
         for (var x = 0; x < this.size; x++) {
             if (board[y][x] == 0) {
@@ -305,15 +312,19 @@ Morreli.prototype.countPieces = function(board) {
             }
         }
     }
+    this.white.string = ("WHITE     " + this.counter.white);
+    this.black.string = (this.scene,
+    "BLACK     " + this.counter.black)
 }
 
 Morreli.prototype.displayHUD = function() {
     
-    //this.scene.pushMatrix();
+    this.scene.translate(2.3, 0.8, 0)
+    this.scene.scale(0.2, 0.2, 0.2)
+    
     this.white.display();
-    //this.scene.translate(0,1,0);
+    this.scene.translate(0, -1, 0);
     this.black.display();
-    //this.scene.translate(0,1,0);
+    this.scene.translate(0, -1, 0);
     this.timeLeft.display();
-    //this.scene.popMatrix();
 }

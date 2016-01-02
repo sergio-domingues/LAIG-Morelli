@@ -134,7 +134,7 @@ Board.prototype.movePiece = function(difference) {
             var crownCapture = new CrownAnimation(this.scene,Math.floor(this.size / 2),Math.floor(this.size / 2));
             this.logicBoard[middle].animation = crownCapture;
             anim.addAnimation(crownCapture);
-        } else {
+        } else if(this.logicBoard[middle].player != difference["throne"]){
             this.logicBoard[middle].player = difference["throne"];
             var animCapture = new CapturePieceAnimation(this.scene,Math.floor(this.size / 2),Math.floor(this.size / 2),this.logicBoard[middle]);
             this.logicBoard[middle].animation = animCapture;
