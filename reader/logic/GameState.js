@@ -61,8 +61,6 @@ Morreli.prototype.display = function() {
 }
 
 Morreli.prototype.updateClick = function(id, piece) {
-    console.log(this.history.boardHistory.length)
-    
     //Selectionar peca no estdo inicial
     if (this.currentState == "INIT" && id > 200) {
         if (piece.player == this.player) {
@@ -120,6 +118,7 @@ Morreli.prototype.updateTime = function(currTime) {
     //this.stateTime -= currTime - this.lastLastTick;
     } else {
         this.currentState = "GAMEOVER";
+        this.scene.interface.gameFolder.add(this, "movie");
     }
     
     this.timeLeft.string = (this.scene,
@@ -255,6 +254,8 @@ Morreli.prototype.checkEndGame = function() {
         console.log(data);
         if (data) {
             self.currentState = "GAMEOVER";
+            self.scene.interface.gameFolder.add(this, "movie");
+    
         } 
         else {
             self.player = (1 - self.player);

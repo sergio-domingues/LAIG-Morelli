@@ -36,13 +36,12 @@ MyInterface.prototype.init = function(application) {
     
     //botao undo
     
-    var gameFolder = this.gui.addFolder('Game');
-    gameFolder.open();
+    this.gameFolder = this.gui.addFolder('Game');
+    this.gameFolder.open();
     
-    gameFolder.add(this, "undo");
-    gameFolder.add(this, "movie");
+    this.gameFolder.add(this, "undo");
     
-    var selectedScene = gameFolder.add(this, 'selectedScene', this.scenesNames);
+    var selectedScene = this.gameFolder.add(this, 'selectedScene', this.scenesNames);
     
     selectedScene.onChange(function(event) {
         var filename = "testScene.lsx";
@@ -63,11 +62,11 @@ MyInterface.prototype.init = function(application) {
     
     
     
-    gameFolder.add(this, "whitePlayer", this.gamemode);
-    gameFolder.add(this, "blackPlayer", this.gamemode);
-    gameFolder.add(this, "size", 7, 13).step(1);
+    this.gameFolder.add(this, "whitePlayer", this.gamemode);
+    this.gameFolder.add(this, "blackPlayer", this.gamemode);
+    this.gameFolder.add(this, "size", 7, 13).step(1);
     
-    gameFolder.add(this.scene, "start");
+    this.gameFolder.add(this.scene, "start");
     
     return true;
 }
