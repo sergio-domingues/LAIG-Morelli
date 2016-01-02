@@ -24,9 +24,9 @@ MyInterface.prototype.init = function(application) {
     
     this.gui = new dat.GUI();
     this.scene = application.scene;
-    this.scenesNames = ["testScene.lsx", "triangulo.lsx"];
+    this.scenesNames = ["JAPANESE", "WINTER", "MOON"];
     this.gamemode = ["human", "bot1", "bot2"];
-    this.selectedScene = 0;
+    this.selectedScene = "JAPANESE";
     this.whitePlayer = "human";
     this.blackPlayer = "human";
     this.lightsFolder = this.gui.addFolder('Luzes');
@@ -44,7 +44,20 @@ MyInterface.prototype.init = function(application) {
     var selectedScene = gameFolder.add(this, 'selectedScene', this.scenesNames);
     
     selectedScene.onChange(function(event) {
-        new MySceneGraph(event,interface.scene);
+        var filename = "testScene.lsx";
+        switch (event) {
+        case "JAPANESE":
+            filename = "testScene.lsx";
+            break;
+        case "WINTER":
+            filename = "cenaAlternativa2.lsx"
+            break;
+        case "MOON":
+            filename = "cenaAlternativa3.lsx";
+            break;
+        }
+
+        new MySceneGraph(filename,interface.scene);
     });
     
     
