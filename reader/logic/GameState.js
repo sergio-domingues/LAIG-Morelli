@@ -110,7 +110,6 @@ Morreli.prototype.updateClick = function(id, piece) {
     
     }
     if (this.currentState == "GAMEOVER") {
-        alert("Winner => Player ", this.player);
     }
 }
 
@@ -122,6 +121,7 @@ Morreli.prototype.updateTime = function(currTime) {
         this.currentState = "GAMEOVER";
         if (!this.scene.interface.movieButton) {
             this.scene.interface.movieButton = this.scene.interface.gameFolder.add(this, "movie");
+            this.alertWinner(true);
         }
     }
     
@@ -258,7 +258,8 @@ Morreli.prototype.checkEndGame = function() {
         console.log(data);
         if (data) {
             self.currentState = "GAMEOVER";
-            this.scene.interface.movieButton = this.scene.interface.gameFolder.add(this, "movie");
+            self.scene.interface.movieButton = self.scene.interface.gameFolder.add(this, "movie");
+            self.alertWinner();
         } 
         else {
             self.player = (1 - self.player);
@@ -334,12 +335,19 @@ Morreli.prototype.displayHUD = function() {
 }
 
 
-Morreli.prototype.alertWinner=function(){
+Morreli.prototype.alertWinner=function(timeout){
     var middle = Math.floor(this.size / 2) * this.size + Math.floor(this.size / 2);
 
     var player=this.board[middle];
     var playerString;
 
+    if(timeout){
+        if(this.player===0){
+            alert("THE BLACK PLAYER LOST :(")
+        }else if(this.player ===1){
+            alert("THE WHITE PLAYER LOST :(")
+        }
+    }else{
     switch(player){
         case 1:
             alert("CONGRATS!!!\n WHITE PLAYER WON :D")
@@ -350,8 +358,9 @@ Morreli.prototype.alertWinner=function(){
         break;
 
         case -1:
-            alert("CONGRATS!!!\n BLACK PLAYER WON")
+            alert("OHHHH :( \n GAME ENDED IN A DRAW");
         break;
+    }
     }
 
 
