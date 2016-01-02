@@ -39,8 +39,8 @@ MyInterface.prototype.init = function(application) {
     var gameFolder = this.gui.addFolder('Game');
     gameFolder.open();
     
-    gameFolder.add(this.scene.morreli, "undo");
-    gameFolder.add(this.scene.morreli, "movie");
+    gameFolder.add(this, "undo");
+    gameFolder.add(this, "movie");
     
     var selectedScene = gameFolder.add(this, 'selectedScene', this.scenesNames);
     
@@ -104,4 +104,14 @@ MyInterface.prototype.removeFolder = function(name) {
   this.gui.__ul.removeChild(folder.domElement.parentNode);
   delete this.gui.__folders[name];
   this.gui.onResize();
+}
+
+MyInterface.prototype.undo = function() {
+    this.scene.morreli.undo();
+
+}
+
+MyInterface.prototype.movie = function() {
+    this.scene.movie();
+
 }

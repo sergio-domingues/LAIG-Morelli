@@ -32,6 +32,8 @@ function Morreli(scene, size, gamemode) {
     this.timeLeft = new String3D(this.scene,"TIME LEFT:" + this.stateTime / 1000);
 }
 
+Morreli.prototype.constructor = Morreli;
+
 Morreli.prototype.init = function() {
     var self = this;
     this.connection.initTabuleiro(this.size, function(board) {
@@ -59,6 +61,8 @@ Morreli.prototype.display = function() {
 }
 
 Morreli.prototype.updateClick = function(id, piece) {
+console.log(this.history.boardHistory.length)
+
     //Selectionar peca no estdo inicial
     if (this.currentState == "INIT" && id > 200) {
         if (piece.player == this.player) {

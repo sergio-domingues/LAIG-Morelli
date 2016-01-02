@@ -110,8 +110,8 @@ XMLscene.prototype.init = function(application) {
     
     this.black = new CGFappearance(this);
     this.black.setAmbient(0, 0, 0, 1);
-    this.black.setDiffuse(0, 0, 0, 1);
-    this.black.setSpecular(0, 0, 0, 1);
+    this.black.setDiffuse(0.0, 0.0, 0.0, 1);
+    this.black.setSpecular(0.0, 0.0, 0.0, 1);
     this.black.setShininess(100);
     
     this.colors = [this.red, this.orange, this.yellow, this.green, this.blue, this.purplefagg, this.purple];
@@ -119,8 +119,7 @@ XMLscene.prototype.init = function(application) {
     this.setUpdatePeriod(40);
     
     this.setPickEnabled(true);
-    
-    this.x = new String3D(this,"VOU BAZAR TE LOGO");
+
 }
 ;
 
@@ -374,6 +373,9 @@ XMLscene.prototype.start = function(){
     if(this.interface.size%2==0){
         this.interface.size++;
     }
+
+    delete this.morreli;
     
     this.morreli=new Morreli(this,this.interface.size,[this.interface.blackPlayer,this.interface.whitePlayer]);
+
 }
