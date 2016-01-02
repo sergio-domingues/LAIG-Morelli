@@ -39,11 +39,7 @@ Board.prototype.init = function() {
     
     for (var i = 0; i < this.size * this.size; i++) {
         var pos = this.getCoords(i);
-        var colorIndexY = pos["y"]
-          
-        
-        
-        , colorIndexX = pos["x"];
+        var colorIndexY = pos["y"] , colorIndexX = pos["x"];
         
         if (pos["x"] > this.size / 2) {
             colorIndexX = this.size - pos["x"] - 1;

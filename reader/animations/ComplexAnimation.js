@@ -37,3 +37,31 @@ ComplexAnimation.prototype.addTime=function(time){
 ComplexAnimation.prototype.getAnim = function(indice){
     return indice < this.animationsIDs.length ? this.animationsIDs[indice] : "Composed Animation: trying to access outside of array";
 }
+
+
+ComplexAnimation.prototype.getCurrentAnim = function(){
+    return this.anim[this.currentAnim];
+}
+
+ComplexAnimation.prototype.isDone = function() {
+    for(var i = 0 ; i < this.anim.length; i++){
+        if(!this.anim[i].isDone())
+            return false;
+    }
+    return true;
+}
+
+ComplexAnimation.prototype.isActive = function(){
+
+    if(this.anim.length > 0){
+        return this.anim[0].isActive();
+    }else
+        return false;
+}
+
+ComplexAnimation.prototype.setActive = function(){
+    
+     if(this.anim.length > 0){
+        this.anim[0].setActive();
+    }
+}

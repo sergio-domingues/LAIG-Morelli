@@ -54,3 +54,11 @@ Animation.prototype.setInactive = function(){
 	this.frameTime = 0; 
 	this.currentTime = undefined;
 }
+
+Animation.prototype.isDone = function(){
+	return this.done;
+}
+
+Animation.prototype.isActive = function(){
+	return this.active;
+}
