@@ -126,9 +126,9 @@ Board.prototype.movePiece = function(difference) {
         anim.addAnimation(animCapture);
     }
     
+    var middle = Math.floor(this.size / 2) * this.size + Math.floor(this.size / 2);
+
     if (difference["throne"] != -1) {
-        var middle = Math.floor(this.size / 2) * this.size + Math.floor(this.size / 2);
-        
         if (this.logicBoard[middle] === undefined) {
             this.logicBoard[middle] = new Piece(this.scene,difference["throne"],Math.floor(this.size / 2),Math.floor(this.size / 2),"throne");
             var crownCapture = new CrownAnimation(this.scene,Math.floor(this.size / 2),Math.floor(this.size / 2));
@@ -140,6 +140,8 @@ Board.prototype.movePiece = function(difference) {
             this.logicBoard[middle].animation = animCapture;
             anim.addAnimation(animCapture);
         }
+    }else if(difference["throne"] ==-1 && this.logicBoard[middle]!==undefined){
+        this.logicBoard[middle]=undefined;
     }
     
     

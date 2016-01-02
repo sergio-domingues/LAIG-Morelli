@@ -30,7 +30,7 @@ MyInterface.prototype.init = function(application) {
     this.whitePlayer = "human";
     this.blackPlayer = "human";
     this.lightsFolder = this.gui.addFolder('Luzes');
-    this.size = 11;
+    this.size = 13;
     var interface = this;
     
     //botao undo

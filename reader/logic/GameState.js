@@ -105,7 +105,7 @@ Morreli.prototype.updateClick = function(id, piece) {
     
     }
     if (this.currentState == "GAMEOVER") {
-        console.log("Winner => Player ", this.player);
+        alert("Winner => Player ", this.player);
     }
 }
 
@@ -117,8 +117,8 @@ Morreli.prototype.updateTime = function(currTime) {
         this.currentState = "GAMEOVER";
     }
     
-    //this.timeLeft.string = (this.scene,
-    //"TIME LEFT " + Math.floor(this.stateTime / 1000));
+    this.timeLeft.string = (this.scene,
+    "TIME LEFT " + Math.floor(this.stateTime / 1000));
     
     
     //vai eliminando animacoes que ja terminaram
