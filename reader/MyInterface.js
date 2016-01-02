@@ -112,6 +112,6 @@ MyInterface.prototype.undo = function() {
 }
 
 MyInterface.prototype.movie = function() {
-    this.scene.movie();
+    this.scene.morreli.movie();
 
 }

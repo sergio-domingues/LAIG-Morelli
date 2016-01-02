@@ -1,15 +1,3 @@
-/**
- * Represents a circulas animation
- * @constructor 
- * @param {object} scene
- * @param {string} id - linear animation's id
- * @param {string} type - animation's type
- * @param {int} span - animation's duration 
- * @param {string} center - animation's center
- * @param {float} radius - linear animation's id
- * @param {int} startAng - animation's initial angle 
- * @param {int} rotAng - rotation angle to be applied
- */
 function CameraAnimation(scene,camera) {
     Animation.call(this, scene, "camera", "camera", 1);
     this.camera=scene.camera;
