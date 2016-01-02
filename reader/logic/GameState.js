@@ -61,8 +61,8 @@ Morreli.prototype.display = function() {
 }
 
 Morreli.prototype.updateClick = function(id, piece) {
-console.log(this.history.boardHistory.length)
-
+    console.log(this.history.boardHistory.length)
+    
     //Selectionar peca no estdo inicial
     if (this.currentState == "INIT" && id > 200) {
         if (piece.player == this.player) {
@@ -72,6 +72,7 @@ console.log(this.history.boardHistory.length)
             this.currentState = "PIECESELECT";
         }
     }//Peca selecionada e carrega novamente numa peca
+     
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
         if (piece.player == this.player) {
@@ -116,7 +117,7 @@ console.log(this.history.boardHistory.length)
 
 Morreli.prototype.updateTime = function(currTime) {
     if (this.stateTime > 0) {
-        //this.stateTime -= currTime - this.lastLastTick;
+    //this.stateTime -= currTime - this.lastLastTick;
     } else {
         this.currentState = "GAMEOVER";
     }
@@ -190,6 +191,11 @@ Morreli.prototype.undo = function() {
         var changes = this.history.undo();
         if (changes)
             this.board.movePiece(changes)
+        
+        this.currentState = "ANIM";
+        this.stateTimeMax = 2;
+        this.countPieces(this.history.top());
+        this.player = 1 - this.player;
     }
 }
 
@@ -200,7 +206,7 @@ Morreli.prototype.movie = function() {
     this.currentState = "MOVIE";
     
     this.movieIter = 0;
- 
+    
     this.movieIteration(this.movieIter);
 }
 
@@ -216,16 +222,6 @@ Morreli.prototype.movieIteration = function(iter) {
     
     var diff = this.history.difference(tabOld, tabNew);
     this.board.movePiece(diff);
-    
-    /* for (var i = 0; i < this.history.length() - 1; i++) {        
-        var tabOld = this.history.get(i);
-        var tabNew = this.history.get(i + 1);
-        
-        var diff = this.history.difference(tabOld, tabNew);
-        this.board.movePiece(diff);
-        //this.stateTimeMax = 2;
-    }*/
-
 }
 
 
