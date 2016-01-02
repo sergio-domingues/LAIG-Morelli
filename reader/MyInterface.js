@@ -29,8 +29,9 @@ MyInterface.prototype.init = function(application) {
     this.selectedScene = "JAPANESE";
     this.whitePlayer = "human";
     this.blackPlayer = "human";
-    this.lightsFolder = this.gui.addFolder('Luzes');
+    this.lightsFolder = {};
     this.size = 13;
+    this.lights=[];
     var interface = this;
     
     //botao undo
@@ -78,14 +79,29 @@ MyInterface.prototype.init = function(application) {
 MyInterface.prototype.updateInterface = function() {
     
     var interface = this;
+    this.removeFolder("Luzes");
+    this.lightsFolder=this.gui.addFolder('Luzes')
     
     //actualiza as luzes na interface
     for (onOff in this.scene.lightsOn) {
         this.lightsFolder.add(this.scene.lightsOn, onOff).onChange(function(enabled) {
             interface.scene.updateGuiLights(this.property, enabled);
         });
+        
     }
+
 }
 ;
 
 //MyInterface.prototype.processMouse = function() {}
+
+MyInterface.prototype.removeFolder = function(name) {
+  var folder = this.gui.__folders[name];
+  if (!folder) {
+    return;
+  }
+  folder.close();
+  this.gui.__ul.removeChild(folder.domElement.parentNode);
+  delete this.gui.__folders[name];
+  this.gui.onResize();
+}
