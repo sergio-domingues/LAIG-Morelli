@@ -285,7 +285,7 @@ Morreli.prototype.botSmart = function() {
     var self = this;
     
     this.connection.smartMove(this.history.top(), this.size, this.player, function(board) {
-        self.movePiece(self.history.diff(board));
+        self.board.movePiece(self.history.diff(board));
         self.currentState = "ANIM";
         self.stateTimeMax = 2;
         self.history.push(board);
