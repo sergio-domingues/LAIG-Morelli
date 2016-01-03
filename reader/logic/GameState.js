@@ -71,8 +71,6 @@ Morreli.prototype.updateClick = function(id, piece) {
         }
     }//Peca selecionada e carrega novamente numa peca
      
-    
-    
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
         if (piece.player == this.player) {
@@ -115,18 +113,24 @@ Morreli.prototype.updateClick = function(id, piece) {
 
 
 Morreli.prototype.updateTime = function(currTime) {
-    if (this.stateTime > 0) {
-        this.stateTime -= currTime - this.lastLastTick;
-    } else {
-        this.currentState = "GAMEOVER";
-        if (!this.scene.interface.movieButton) {
-            this.scene.interface.movieButton = this.scene.interface.gameFolder.add(this, "movie");
+    
+    if (this.currentState != "GAMEOVER" && this.currentState != "MOVIE" && this.currentState != "ANIM") {
+        if (this.stateTime > 0) {
+            this.stateTime -= currTime - this.lastLastTick;
+        } else {
+            this.currentState = "GAMEOVER";
+            this.stateTime = 0;
+            if (!this.scene.interface.movieButton) {
+                this.scene.interface.movieButton = this.scene.interface.gameFolder.add(this, "movie");
+            }
             this.alertWinner(true);
         }
+        
+        if(this.stateTime < 0) this.stateTime = 0;
+
+        this.timeLeft.string = (this.scene,
+        "TIME LEFT " + Math.floor(this.stateTime / 1000));    
     }
-    
-    this.timeLeft.string = (this.scene,
-    "TIME LEFT " + Math.floor(this.stateTime / 1000));
     
     
     //vai eliminando animacoes que ja terminaram
@@ -335,33 +339,33 @@ Morreli.prototype.displayHUD = function() {
 }
 
 
-Morreli.prototype.alertWinner=function(timeout){
+Morreli.prototype.alertWinner = function(timeout) {
     var middle = Math.floor(this.size / 2) * this.size + Math.floor(this.size / 2);
-
-    var player=this.board[middle];
+    
+    var player = this.board[middle];
     var playerString;
-
-    if(timeout){
-        if(this.player===0){
+    
+    if (timeout) {
+        if (this.player === 0) {
             alert("THE BLACK PLAYER LOST :(")
-        }else if(this.player ===1){
+        } else if (this.player === 1) {
             alert("THE WHITE PLAYER LOST :(")
         }
-    }else{
-    switch(player){
+    } else {
+        switch (player) {
         case 1:
             alert("CONGRATS!!!\n WHITE PLAYER WON :D")
-        break;
-
+            break;
+        
         case 0:
             alert("CONGRATS!!!\n BLACK PLAYER WON :D")
-        break;
-
+            break;
+        
         case -1:
             alert("OHHHH :( \n GAME ENDED IN A DRAW");
-        break;
-    }
+            break;
+        }
     }
 
 
-    }
+}
