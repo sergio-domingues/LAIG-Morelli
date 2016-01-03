@@ -71,6 +71,7 @@ Morreli.prototype.updateClick = function(id, piece) {
         }
     }//Peca selecionada e carrega novamente numa peca
      
+    
     else if (this.currentState == "PIECESELECT" && id > 200) {
         //volta a carregar na peca => volta para o estado inicial
         if (piece.player == this.player) {
@@ -116,7 +117,8 @@ Morreli.prototype.updateTime = function(currTime) {
     
     if (this.currentState != "GAMEOVER" && this.currentState != "MOVIE" && this.currentState != "ANIM") {
         if (this.stateTime > 0) {
-            this.stateTime -= currTime - this.lastLastTick;
+            if (this.currentState != "BOT")
+                this.stateTime -= currTime - this.lastLastTick;
         } else {
             this.currentState = "GAMEOVER";
             this.stateTime = 0;
@@ -126,10 +128,11 @@ Morreli.prototype.updateTime = function(currTime) {
             this.alertWinner(true);
         }
         
-        if(this.stateTime < 0) this.stateTime = 0;
-
+        if (this.stateTime < 0)
+            this.stateTime = 0;
+        
         this.timeLeft.string = (this.scene,
-        "TIME LEFT " + Math.floor(this.stateTime / 1000));    
+        "TIME LEFT " + Math.floor(this.stateTime / 1000));
     }
     
     
