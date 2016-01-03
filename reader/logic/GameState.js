@@ -2,7 +2,7 @@ function Morreli(scene, size, gamemode) {
     this.player = 0;
     this.scene = scene;
     this.stateTimeMax = 0;
-    this.stateTime = 15000;
+    this.stateTime = 25000;
     this.size = size;
     this.board = new Board(scene,size);
     this.mode = gamemode;

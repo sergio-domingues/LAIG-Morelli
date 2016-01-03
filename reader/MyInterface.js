@@ -93,7 +93,7 @@ MyInterface.prototype.updateInterface = function() {
 }
 ;
 
-//MyInterface.prototype.processMouse = function() {}
+MyInterface.prototype.processMouse = function() {}
 
 MyInterface.prototype.removeFolder = function(name) {
   var folder = this.gui.__folders[name];
