@@ -183,7 +183,7 @@ Morreli.prototype.updateTime = function(currTime) {
             this.anim = new CameraAnimation(this.scene);
         } else {
             this.currentState = "INIT";
-            this.stateTime = 15000;
+            this.stateTime = 25000;
         }
     }
     this.lastLastTick = currTime;
