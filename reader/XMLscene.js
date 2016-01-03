@@ -374,7 +374,11 @@ XMLscene.prototype.start = function(){
         this.interface.size++;
     }
 
-    delete this.morreli;
+    //delete this.morreli;
+
+    if(this.interface.movieButton){
+        this.interface.gameFolder.remove(this.interface.movieButton);
+    }
     
     this.morreli=new Morreli(this,this.interface.size,[this.interface.blackPlayer,this.interface.whitePlayer]);
 
